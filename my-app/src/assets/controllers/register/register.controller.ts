@@ -1,7 +1,19 @@
-import {RegisterRequest, AsignRequest, AsignResponseDto} from "./register-dtos";
+import {RegisterRequest, AsignResponseDto} from "./register-dtos";
 import {Subject, Observable} from 'rxjs';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase';
 import { RegisterDto } from "../../../components/register/register-dto";
+
+var firebaseConfig = {
+    apiKey: "AIzaSyBKosyJzR1yXLe7I39vaXJAtHJplgsOrQc",
+    authDomain: "app-ble-bbdd.firebaseapp.com",
+    databaseURL: "https://app-ble-bbdd.firebaseio.com",
+    projectId: "app-ble-bbdd",
+    storageBucket: "app-ble-bbdd.appspot.com",
+    messagingSenderId: "439902971846",
+    appId: "1:439902971846:web:59b405049c8da04c4534c7"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 export class RegisterController{
     private _numBeaconAsign: Subject<RegisterDto> = new Subject();
@@ -10,40 +22,39 @@ export class RegisterController{
         return this._numBeaconAsign.asObservable();
     }
 
-    public async registerUser (registerRequest: RegisterRequest){
+    //Conectar con la Raspberry que detectará el BLE y traer su valor para mostrarlo por pantalla
+    public async asignBeacon():Promise<AsignResponseDto>{
         console.log("Estoy en register controller");
-        //var firebase = require("firebase");
-        var database = firebase.database();
-        database.ref('users/').set({
-            user: registerRequest.user,
-            beacon: registerRequest.beacon,
-        });
+        //Conectar con Raspberry y detectar BLE
+
+        //Cambiar valor variable _numBeaconAsign para ser detectada por view
+        this._numBeaconAsign.next({numBeaconAsign:'678', expedientValue:''});
+
+        //const aux = firebase.database().ref().child('users').child('name');
+        
+        console.log("Hola");
         const response: AsignResponseDto = {
             status: 1,
             location: '/register',
-            numBeaconAsign: '123456',
         };
+        console.log("Adios");
         return response;
-       /* var database = firebase.database();
-        // Import Admin SDK
-        var admin = require("firebase-admin");
-        var db = admin.database();
-        var ref = db.ref("https://app-ble-bbdd.firebaseio.com/server/saving-data/fireblog/posts");
-        // Retrieve new posts as they are added to our database
-        ref.on("child_added", function(snapshot, prevChildKey) {
-            var newPost = snapshot.val();
-            console.log("Author: " + newPost.author);
-            console.log("Title: " + newPost.title);
-            console.log("Previous Post ID: " + prevChildKey);
-        });*/
     }
 
-    public async asignBeacon(requestValue: AsignRequest): Promise<AsignResponseDto>{
-        console.log("hola");
+    //Conectar con la base de datos para enviar los datos del usuario y BLE y almacenarlos
+    public async registerUser (registerRequest: RegisterRequest){
+        console.log("Estoy en register controller");
+    
+        const auxd = firebase.database().ref().child('users').child('name');
+        console.log(auxd);
+        console.log("este es el bueno ")
+        auxd.on('value', function(e) {
+            console.log(e.val())
+          });
+    
         const response: AsignResponseDto = {
-            status: 0,
+            status: 1,
             location: '/register',
-            numBeaconAsign: '123456',
         };
         return response;
     }

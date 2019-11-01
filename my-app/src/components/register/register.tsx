@@ -4,7 +4,7 @@ import { RouteComponentProps } from "react-router";
 import {Box, Button, TextField} from '@material-ui/core';
 import HeaderView from "../header/header";
 import FooterView from "../footer/footer";
-import { AsignRequest, AsignResponseDto, RegisterRequest } from "../../assets/controllers/register/register-dtos";
+import { AsignResponseDto, RegisterRequest } from "../../assets/controllers/register/register-dtos";
 import { RegisterDto } from "./register-dto";
 import { RegisterController } from "../../assets/controllers/register/register.controller";
 
@@ -30,14 +30,19 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
                     <form>
                         <label>Nombre del paciente</label>
                         <input type="text" id="name" name="fname" onChange={event=>this.OnChangeTextField(event.target.value)} />
+                        
                         <label >Nº expediente</label>
-                        <input type="text" id="exp" name="lname" />
-                        <Button className="button-asign-ble" onClick={()=>this.asign_beacon()}>Asignar localizador</Button>
+                        <input type="text" id="exp" name="lname" onChange={event=>this.OnChangeTextField(event.target.value)}/>
+                        
+                        <Button className="button-register-user-ble" onClick={()=>this.asign_beacon()}>Asignar localizador</Button>
+                        
                         <br></br>
+                        
                         <label >Nº localizador</label>
-                        <input type="text" id="beacon" name="lname" />
-                        <Button className="button-asign-ble" onClick={()=>this.registerUserWithBeacon()}>Dar de alta</Button>
-                    </form> 
+                        <input type="text" id="beacon" name="lname" value={this.state.numBeaconAsign} readOnly/>
+                        
+                        <Button className="button-register-user-ble" onClick={()=>this.registerUserAndBeacon()}>Dar de alta</Button>
+                    </form>
                     
                 </Box>
                 <Box className="back-white">
@@ -48,7 +53,6 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
                 <FooterView />
             </Box>
         );
-       /* var firebase = require("firebase");*/
     }
     private OnChangeTextField(changeValue: string){
         console.log("Holaaaaa");
@@ -58,18 +62,15 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
         
     }
     private async asign_beacon(){
-       let request: AsignRequest = {
-            expValue: this.state.expedientValue,
-       }
-       const response: AsignResponseDto = await this._controller.asignBeacon(request);
 
-       console.log(response.numBeaconAsign);
+       const response: AsignResponseDto = await this._controller.asignBeacon();
 
     }
-    private async registerUserWithBeacon(){
+    private async registerUserAndBeacon(){
         let request: RegisterRequest = {
-           user: this.state.expedientValue,
-           beacon: "1369",
+           user_name:"Mario",
+           user_exp: this.state.expedientValue,
+           beacon: this.state.numBeaconAsign,
        }
        const response: AsignResponseDto = await this._controller.registerUser(request);
        console.log(response.status);
