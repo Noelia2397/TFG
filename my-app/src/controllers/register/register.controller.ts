@@ -21,27 +21,21 @@ export class RegisterController{
     }
 
     //Conectar con la Raspberry que detectará el BLE y traer su valor para mostrarlo por pantalla
-    public async asignBeacon():Promise<AsignResponseDto>{
-        console.log("Estoy en register controller");
+    public async asignBeacon(registerRequest: RegisterRequest):Promise<AsignResponseDto>{
         //Conectar con Raspberry y detectar BLE
 
         //Cambiar valor variable _numBeaconAsign para ser detectada por view
-        this._numBeaconAsign.next({numBeaconAsign:'678', expedientValue:''});
+        this._numBeaconAsign.next({numBeaconAsign:'678', NamePatientValue:registerRequest.user_name, HClinicoValue:registerRequest.user_hist});
 
-        //const aux = firebase.database().ref().child('users').child('name');
-        
-        console.log("Hola");
         const response: AsignResponseDto = {
             status: 1,
             location: '/register',
         };
-        console.log("Adios");
         return response;
     }
 
     //Conectar con la base de datos para enviar los datos del usuario y BLE y almacenarlos
     public async registerUser (registerRequest: RegisterRequest){
-        console.log("Estoy en register controller");
     
         /*const auxd = firebase.database().ref().child('users').child('name');
         console.log(auxd);
@@ -54,7 +48,7 @@ export class RegisterController{
             userName: registerRequest.user_name,
             beacon: registerRequest.beacon,
         });
-        console.log("Impreso");
+        
         const response: AsignResponseDto = {
             status: 1,
             location: '/register',

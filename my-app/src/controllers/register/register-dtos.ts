@@ -1,6 +1,6 @@
 export interface RegisterRequest{
     user_name: string;
-    user_exp: string;
+    user_hist: string;
     beacon: string;
 }
 

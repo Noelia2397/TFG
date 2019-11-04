@@ -18,7 +18,8 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
             this.setState(response);
         })
         this.state = {
-            expedientValue: '',
+            NamePatientValue: '',
+            HClinicoValue: '',
             numBeaconAsign: '',
         };
     }
@@ -29,17 +30,17 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
                 <Box className="background-gradient center">
                     <form>
                         <label>Nombre del paciente</label>
-                        <input type="text" id="name" name="fname" onChange={event=>this.OnChangeTextField(event.target.value)} />
+                        <input type="text" name="fname" onChange={event=>this.OnChangeTextFieldName(event.target.value)} />
                         
-                        <label >Nº expediente</label>
-                        <input type="text" id="exp" name="lname" onChange={event=>this.OnChangeTextField(event.target.value)}/>
+                        <label >Historial clínico</label>
+                        <input type="text" name="lname" onChange={event=>this.OnChangeTextFieldHClinic(event.target.value)}/>
                         
                         <Button className="button-register-user-ble" onClick={()=>this.asign_beacon()}>Asignar localizador</Button>
                         
                         <br></br>
                         
                         <label >Nº localizador</label>
-                        <input type="text" id="beacon" name="lname" value={this.state.numBeaconAsign} readOnly/>
+                        <input type="text" name="lname" value={this.state.numBeaconAsign} readOnly/>
                         
                         <Button className="button-register-user-ble" onClick={()=>this.registerUserAndBeacon()}>Dar de alta</Button>
                     </form>
@@ -54,25 +55,33 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
             </Box>
         );
     }
-    private OnChangeTextField(changeValue: string){
-        console.log("Holaaaaa");
+    private OnChangeTextFieldName(changeValue: string){
         this.setState({
-            expedientValue:changeValue,
+            NamePatientValue:changeValue,
+        })
+        
+    }
+    private OnChangeTextFieldHClinic(changeValue: string){
+        this.setState({
+            HClinicoValue:changeValue,
         })
         
     }
     private async asign_beacon(){
-
-       const response: AsignResponseDto = await this._controller.asignBeacon();
+        var request: RegisterRequest = {
+            user_name:this.state.NamePatientValue,
+            user_hist: this.state.HClinicoValue,
+            beacon: this.state.numBeaconAsign,
+        }
+       const response: AsignResponseDto = await this._controller.asignBeacon(request);
 
     }
     private async registerUserAndBeacon(){
         let request: RegisterRequest = {
-           user_name:"Mario",
-           user_exp: this.state.expedientValue,
+           user_name:this.state.NamePatientValue,
+           user_hist: this.state.HClinicoValue,
            beacon: this.state.numBeaconAsign,
        }
        const response: AsignResponseDto = await this._controller.registerUser(request);
-       console.log(response.status);
     }
 }
