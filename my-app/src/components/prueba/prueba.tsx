@@ -12,7 +12,7 @@ export default class PruebaView extends Component<RouteComponentProps>{
         return(
             <Box>
                 <HeaderView />
-                <Box className="back-gradient">
+                <Box className="background-gradient">
                     <Box className="half-left">
                         <p className="sentence">Localiza en un click</p>
                     </Box>
@@ -24,9 +24,16 @@ export default class PruebaView extends Component<RouteComponentProps>{
                     </Box>
                     
                 </Box>
-                <Box className="back-white">
-                    <p className="sentence">Localiza en un click</p>
-                    <p>Hola</p>
+                <Box className="back-white center">
+                    <Box className="mini-cards">
+                        <p>Localiza de forma sencilla y rápida a los pacientes en las instalaciones del hospital</p>
+                    </Box>
+                    <Box className="mini-cards">
+                        <p>Registra a los pacientes para poder detectar su posición</p>
+                    </Box>
+                    <Box className="mini-cards">
+                        <p>Registra a los pacientes para poder detectar su posición</p>
+                    </Box>
                     
                 </Box>
             </Box>

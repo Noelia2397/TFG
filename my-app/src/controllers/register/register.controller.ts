@@ -1,7 +1,7 @@
 import {RegisterRequest, AsignResponseDto} from "./register-dtos";
 import {Subject, Observable} from 'rxjs';
 import firebase from 'firebase';
-import { RegisterDto } from "../../../components/register/register-dto";
+import { RegisterDto } from "../../components/register/register-dto";
 
 var firebaseConfig = {
     apiKey: "AIzaSyBKosyJzR1yXLe7I39vaXJAtHJplgsOrQc",
@@ -50,8 +50,8 @@ export class RegisterController{
         console.log("este es el bueno ")
         auxd.on('value', function(e) {
             console.log(e.val())
-          });
-    
+        });
+        console.log("Impreso");
         const response: AsignResponseDto = {
             status: 1,
             location: '/register',

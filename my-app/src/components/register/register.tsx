@@ -4,9 +4,9 @@ import { RouteComponentProps } from "react-router";
 import {Box, Button, TextField} from '@material-ui/core';
 import HeaderView from "../header/header";
 import FooterView from "../footer/footer";
-import { AsignResponseDto, RegisterRequest } from "../../assets/controllers/register/register-dtos";
+import { AsignResponseDto, RegisterRequest } from "../../controllers/register/register-dtos";
 import { RegisterDto } from "./register-dto";
-import { RegisterController } from "../../assets/controllers/register/register.controller";
+import { RegisterController } from "../../controllers/register/register.controller";
 
 export default class RegisterView extends Component<RouteComponentProps, RegisterDto>{
     private _controller: RegisterController;
@@ -26,7 +26,7 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
         return(
             <Box>
                 <HeaderView />
-                <Box className="back-gradient center">
+                <Box className="background-gradient center">
                     <form>
                         <label>Nombre del paciente</label>
                         <input type="text" id="name" name="fname" onChange={event=>this.OnChangeTextField(event.target.value)} />

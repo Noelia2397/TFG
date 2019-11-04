@@ -13,8 +13,8 @@
     height: 8vh;
     overflow: hidden;
     background-color: rgb(91, 92, 94);
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
+    /*position: -webkit-sticky; */
+    position: sticky !important;
     top: 0;
   }
   
@@ -92,18 +92,31 @@
     height: 6vh;
     color: white !important;
   }
-
+/*
   .back-gradient{
     height: 100vh;
-    background-color: rgb(6, 86, 235); /* For browsers that do not support gradients */
-    background-image: linear-gradient(to bottom right,rgb(6, 86, 235,0.8),rgba(214, 140, 192, 0.8)); /* Standard syntax*/
+    background-color: rgb(6, 86, 235); 
+    background-image: linear-gradient(to bottom right,rgb(6, 86, 235,0.8),rgba(214, 140, 192, 0.8)); 
     display: flex;
+    align-items: center;
+    text-align: center;
+  }*/
+  .background-gradient{
+    height: 100vh;
+    background-image: url(../images/Fondo.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /*position: relative;*/
+    display: flex;
+    /*padding-top: 10vh;*/
     align-items: center;
     text-align: center;
   }
   .back-white{
     height: 60vh;
     background-color: rgb(255,255,255);
+    padding-top: 10vh;;
   }
   .half-left{
     margin: 10vh;
@@ -135,8 +148,19 @@
     width:50vh;
     height: 70vh;
     float: left;
-    margin: 5vh;
+    margin-left: 5vh;
+    margin-right: 5vh;
     background-color:rgb(197, 193, 193);
+  }
+  .mini-cards{
+    width:50vh;
+    height: 50vh;
+    float: left;
+    margin-left: 5vh;
+    margin-right: 5vh;
+    color:rgb(146, 146, 146);
+    font-family: 'Lato', sans-serif;
+    font-size: 3vh;
   }
   .center{
     justify-content: center;
@@ -151,8 +175,8 @@
     width: 30vh;
     height: 6vh;
     display: inherit;
-    align-items: inherit;
-    justify-content: inherit;
+    align-items: center;
+    justify-content: center;
     background-color: rgb(16, 1, 70) !important;
     border-radius: 8px !important;
     color: white !important;
