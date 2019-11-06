@@ -21,13 +21,13 @@ export default class OptionsView extends Component<RouteComponentProps>{
                                 <p>DAR DE ALTA</p>
                             </Box>
                         </Box>
-                        <Box className="w3-hover-shadow cards" onClick={()=>this.redirect_unregister()}>
+                        <Box className="w3-hover-shadow cards" onClick={()=>this.redirect_localize()}>
                             <img className="img-style" src="https://ca.maps-edinburgh.com/img/0/western-general-hospital-mapa.jpg" ></img>
                             <Box>
                                 <p>BUSCAR</p>
                             </Box>
                         </Box>
-                        <Box className="w3-hover-shadow cards">
+                        <Box className="w3-hover-shadow cards" onClick={()=>this.redirect_unregister()}>
                             <img className="img-style" src="https://ca.maps-edinburgh.com/img/0/western-general-hospital-mapa.jpg"></img>
                             <Box>
                                 <p>DAR DE BAJA</p>
@@ -49,5 +49,8 @@ export default class OptionsView extends Component<RouteComponentProps>{
     }
     private redirect_unregister(){
         this.props.history.push({pathname:"/unregister"})
+    }
+    private redirect_localize(){
+        this.props.history.push({pathname:"/localize"})
     }
 }
