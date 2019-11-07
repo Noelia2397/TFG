@@ -87,5 +87,13 @@ export class RegisterController{
         };
         return response;
     }
-}
+      
+    private _buildCallbackResponse(response: ResponseDto): ResponseDto {
+        response.callback = router =>
+          router.history.push({
+            pathname: response.location,
+            state: { message: response.status},
+          });
+        return response;
+      }
 }

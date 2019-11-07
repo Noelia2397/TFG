@@ -4,7 +4,7 @@ import { RouteComponentProps } from "react-router";
 import {Box, Button, TextField} from '@material-ui/core';
 import HeaderView from "../header/header";
 import FooterView from "../footer/footer";
-import { AsignResponseDto, RegisterRequest } from "../../controllers/register/register-dtos";
+import { ResponseDto, RegisterRequest } from "../../controllers/register/register-dtos";
 import { RegisterDto } from "./register-dto";
 import { RegisterController } from "../../controllers/register/register.controller";
 
@@ -14,7 +14,7 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
     constructor (props: any){
         super(props);
         this._controller = new RegisterController();
-        this._controller.onViewDtoChangeReceived().subscribe((response: RegisterDto)=>{
+        this._controller.onViewRegisterDtoChangeReceived().subscribe((response: RegisterDto)=>{
             this.setState(response);
         })
         this.state = {
@@ -30,17 +30,17 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
                 <Box className="background-gradient center">
                     <form>
                         <label>Nombre del paciente</label>
-                        <input type="text" name="fname" onChange={event=>this.OnChangeTextFieldName(event.target.value)} />
+                        <input type="text" id="uname" onChange={event=>this.OnChangeTextFieldName(event.target.value)} />
                         
                         <label >Historial clínico</label>
-                        <input type="text" name="lname" onChange={event=>this.OnChangeTextFieldHClinic(event.target.value)}/>
+                        <input type="text" id="hist" onChange={event=>this.OnChangeTextFieldHClinic(event.target.value)}/>
                         
                         <Button className="button-register-user-ble" onClick={()=>this.asign_beacon()}>Asignar localizador</Button>
                         
                         <br></br>
                         
                         <label >Nº localizador</label>
-                        <input type="text" name="lname" value={this.state.numBeaconAsign} readOnly/>
+                        <input type="text" id="ble" value={this.state.numBeaconAsign} readOnly/>
                         
                         <Button className="button-register-user-ble" onClick={()=>this.registerUserAndBeacon()}>Dar de alta</Button>
                     </form>
@@ -73,7 +73,8 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
             user_hist: this.state.HClinicoValue,
             beacon: this.state.numBeaconAsign,
         }
-       const response: AsignResponseDto = await this._controller.asignBeacon(request);
+        this._controller.asignBeacon(request);
+       //const response: AsignResponseDto = await this._controller.asignBeacon(request);
 
     }
     private async registerUserAndBeacon(){
@@ -82,6 +83,8 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
            user_hist: this.state.HClinicoValue,
            beacon: this.state.numBeaconAsign,
        }
-       const response: AsignResponseDto = await this._controller.registerUser(request);
+       const response = this._controller.registerUser(request);
+       response.callback!(this.props);
+       //const response: AsignResponseDto = await this._controller.registerUser(request);
     }
 }
