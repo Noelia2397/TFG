@@ -5,16 +5,21 @@ import {Box, Button} from '@material-ui/core';
 import HeaderView  from "../header/header";
 import { SearchRequest, ResponseDto, SearchResponse } from "../../controllers/register/register-dtos";
 import { RegisterController } from "../../controllers/register/register.controller";
-import { LocalizeRequest } from "./localize-dto";
+import { LocalizeDto } from "./localize-dto";
 
-export default class LocalizeView extends Component<RouteComponentProps,LocalizeRequest>{
+export default class LocalizeView extends Component<RouteComponentProps,LocalizeDto>{
     private _controller: RegisterController;
     
     constructor (props: any){
         super(props);
         this._controller = new RegisterController();
+        this._controller.onViewLocalizeDtoChangeReceived().subscribe((response: LocalizeDto)=>{
+            this.setState(response);
+        })
         this.state = {
             HistClinicoValue: '',
+            NamePatientValue: '',
+            numBeaconAsign: '',
         };
     }
     render(){
@@ -29,12 +34,12 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
                         <br></br>
                         
                         <label >Nombre del paciente</label>
-                        <input type="text" id="hist" readOnly/>
+                        <input type="text" id="hist" value={this.state.NamePatientValue} readOnly/>
                         
                         
                         
                         <label >Nº localizador</label>
-                        <input type="text" id="ble" readOnly/>
+                        <input type="text" id="ble" value={this.state.numBeaconAsign} readOnly/>
                         
                     </form>
                 </Box>
@@ -57,12 +62,12 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
         var request: SearchRequest = {
             hist_clin:this.state.HistClinicoValue,
         }
-        this._controller.localizarPaciente(request);
+        //this._controller.localizarPaciente(request);
        const response: ResponseDto = await this._controller.localizarPaciente(request);
-       const datos: SearchResponse = response.objResponse;
+       //const datos: SearchResponse = response.objResponse;
        console.log("He vuelto a view");
-       console.log("Beacon: "+datos.beacon);
-       console.log(datos.userName);
+       /*console.log("Beacon: "+datos.beacon);
+       console.log(datos.userName);*/
 
     }
 }
