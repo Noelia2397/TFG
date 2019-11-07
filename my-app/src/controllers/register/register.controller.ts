@@ -50,9 +50,42 @@ export class RegisterController{
         });
         
         const response: AsignResponseDto = {
+    public async datosPaciente(searchRequest:SearchRequest): Promise<ResponseDto>{
+        //Traer información de localización del paciente y mostrarla
+        console.log("esto en localizar");
+        var datosBBDD:BaseDResponse ={
+            beacon:"",
+            userName: "",
+        };
+        const auxd = firebase.database().ref().child('users').child(searchRequest.hist_clin);
+        const snapshot = await auxd.once('value');
+        datosBBDD = snapshot.val();
+        
+        this._nameUserRemove.next({numBeaconAsign:datosBBDD.beacon, NamePatientValue:datosBBDD.userName, HistClinicoValue:searchRequest.hist_clin});
+        
+        const response: ResponseDto = {
+            status: 1,
+            location: '/unregister',
+            //objResponse: datos,
+        };
+        console.log("hola");
+        return response;
+    }
+
+    public async borrarPaciente(deleteRequest:DeleteRequest): Promise<ResponseDto>{
+
+        //Borrar de la lista de beacon
+        firebase.database().ref().child('beacon/').child(deleteRequest.beacon).remove();
+        //Borrar de la lista de usuarios
+        firebase.database().ref().child('users/').child(deleteRequest.hist_clin).remove();
+        
+        this._nameUserRemove.next({numBeaconAsign:'', NamePatientValue:'', HistClinicoValue:''});
+        
+        const response: ResponseDto = {
             status: 1,
             location: '/register',
         };
         return response;
     }
+}
 }

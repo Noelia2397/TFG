@@ -3,7 +3,7 @@ import React from "react";
 import { RouteComponentProps } from "react-router";
 import {Box, Button} from '@material-ui/core';
 import HeaderView  from "../header/header";
-import { SearchRequest, ResponseDto, SearchResponse } from "../../controllers/register/register-dtos";
+import { SearchRequest, ResponseDto, SearchResponse, DeleteRequest } from "../../controllers/register/register-dtos";
 import { RegisterController } from "../../controllers/register/register.controller";
 import { UnregisteDto } from "./unregister-dto";
 
@@ -18,7 +18,7 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
         })
         this.state = {
             NamePatientValue: '',
-            HClinicoValue:'',
+            HistClinicoValue:'',
             numBeaconAsign: '',
         };
     }
@@ -30,16 +30,18 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
                         <label>Número historial del paciente</label>
                         <input type="text" id="uname" onChange={event=>this.OnChangeTextField(event.target.value)} />
 
-                        <Button className="button-register-user-ble" onClick={()=>this.borrarPaciente()}>Buscar paciente</Button>
+                        <Button className="button-register-user-ble" onClick={()=>this.buscar_paciente()}>Buscar paciente</Button>
                         <br></br>
                         
                         <label >Nombre del paciente</label>
-                        <input type="text" id="hist" readOnly/>
+                        <input type="text" id="hist" value={this.state.NamePatientValue} readOnly/>
                         
                         
                         
                         <label >Nº localizador</label>
-                        <input type="text" id="ble" readOnly/>
+                        <input type="text" id="ble" value={this.state.numBeaconAsign} readOnly/>
+
+                        <Button className="button-register-user-ble" onClick={()=>this.borrarPaciente()}>Borrar paciente</Button>
                         
                     </form>
                 </Box>
@@ -54,15 +56,24 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
     }
     private OnChangeTextField(changeValue: string){
         this.setState({
-            HClinicoValue:changeValue,
+            HistClinicoValue:changeValue,
         })
     }
 
-    private async borrarPaciente(){
+    private async buscar_paciente(){
         var request: SearchRequest = {
-            hist_clin:this.state.HClinicoValue,
+            hist_clin:this.state.HistClinicoValue,
         }
-        this._controller.borrarPaciente(request);
+       const response: ResponseDto = await this._controller.datosPaciente(request);
+
+    }
+
+    private async borrarPaciente(){
+        var request: DeleteRequest = {
+            hist_clin: this.state.HistClinicoValue,
+            beacon: this.state.numBeaconAsign,
+        }
+        const response: ResponseDto = await this._controller.borrarPaciente(request);
        
 
     }
