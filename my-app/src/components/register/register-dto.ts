@@ -1,4 +1,5 @@
 export interface RegisterDto{
-    expedientValue: string,
+    NamePatientValue: string,
+    HClinicoValue: string,
     numBeaconAsign: string,
 }
