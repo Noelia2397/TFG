@@ -26,22 +26,41 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
         return(
             <Box>
                 <HeaderView />
-                <Box className="background-gradient center"><form>
-                        <label>Número historial del paciente</label>
-                        <input type="text" id="uname" onChange={event=>this.OnChangeTextField(event.target.value)} />
+                <Box className="background-gradient center">
+                    <Box className="BoxForm">
+                        <form className="totalWidth">
+                            <h1 className="titlePage">LOCALIZAR PACIENTE</h1>
 
-                        <Button className="button-register-user-ble" onClick={()=>this.buscar_paciente()}>Buscar paciente</Button>
-                        <br></br>
-                        
-                        <label >Nombre del paciente</label>
-                        <input type="text" id="hist" value={this.state.NamePatientValue} readOnly/>
-                        
-                        
-                        
-                        <label >Nº localizador</label>
-                        <input type="text" id="ble" value={this.state.numBeaconAsign} readOnly/>
-                        
-                    </form>
+                            <Box className="input-group mb-3">
+                                <Box className="input-group-prepend">
+                                    <span className="input-group-text" id="inputGroup-sizing-default" >HISTORIAL CLÍNICO</span>
+                                </Box>
+                                <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onChange={event=>this.OnChangeTextField(event.target.value)}></input>
+                            </Box>
+
+                            <Box className="btn btn-secondary button-register" onClick={()=>this.buscar_paciente()}>LOCALIZAR PACIENTE</Box>
+
+                            <Box className="input-group mb-3 mt-3">
+                                <Box className="input-group-prepend">
+                                    <span className="input-group-text" id="inputGroup-sizing-default">NOMBRE DEL PACIENTE</span>
+                                </Box>
+                                <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"  value={this.state.NamePatientValue} readOnly></input>
+                            </Box>
+
+                            
+
+                            <Box className="input-group mb-3 mt-3">
+                                <Box className="input-group-prepend">
+                                    <span className="input-group-text" id="inputGroup-sizing-default">Nº LOCALIZADOR</span>
+                                </Box>
+                                <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value={this.state.numBeaconAsign} readOnly></input>
+                            </Box>
+
+                            <Box className="btn btn-secondary button-register" onClick={()=>this.buscar_paciente()}>LOCALIZAR</Box>
+                            
+                        </form>
+                    </Box>
+                    
                 </Box>
                 <Box className="back-white">
                     <p className="sentence">Localiza en un click</p>
