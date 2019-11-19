@@ -35,7 +35,7 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
                                 <Box className="input-group-prepend">
                                     <span className="input-group-text" id="inputGroup-sizing-default" >HISTORIAL CLÍNICO</span>
                                 </Box>
-                                <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onChange={event=>this.OnChangeTextField(event.target.value)}></input>
+                                <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Introduce valor..." onChange={event=>this.OnChangeTextField(event.target.value)}></input>
                             </Box>
 
                             <Box className="btn btn-secondary button-register" onClick={()=>this.buscar_paciente()}>BUSCAR PACIENTE</Box>

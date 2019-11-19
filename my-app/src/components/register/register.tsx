@@ -35,13 +35,13 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
                                 <Box className="input-group-prepend">
                                     <span className="input-group-text" id="inputGroup-sizing-default" >NOMBRE DEL PACIENTE</span>
                                 </Box>
-                                <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" onChange={event=>this.OnChangeTextFieldName(event.target.value)}></input>
+                                <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Introduce valor..." onChange={event=>this.OnChangeTextFieldName(event.target.value)}></input>
                             </Box>
                             <Box className="input-group mb-3 mt-3">
                                 <Box className="input-group-prepend">
                                     <span className="input-group-text" id="inputGroup-sizing-default">HISTORIAL CLÍNICO</span>
                                 </Box>
-                                <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"  onChange={event=>this.OnChangeTextFieldHClinic(event.target.value)}></input>
+                                <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"  placeholder="Introduce valor..." onChange={event=>this.OnChangeTextFieldHClinic(event.target.value)}></input>
                             </Box>
 
                             <Box className="btn btn-secondary button-register" onClick={()=>this.asign_beacon()}>Asignar localizador</Box>
