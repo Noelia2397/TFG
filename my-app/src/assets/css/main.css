@@ -80,10 +80,11 @@
     color: white !important;
   }
   .button-register{
-    width: 12rem;
+    width: 14rem;
     background-color: rgb(97, 99, 102) !important;
     border-radius: 6px !important;
     height: 6vh;
+    margin-bottom: 2%;
   }
   .background-gradient{
     height: 100vh;

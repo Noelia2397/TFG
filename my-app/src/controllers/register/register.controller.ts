@@ -54,10 +54,12 @@ export class RegisterController{
         firebase.database().ref('beacon/').child(registerRequest.beacon).set({
             patient: registerRequest.user_hist,
         });
+
+        this._numBeaconAsign.next({numBeaconAsign:'', NamePatientValue:'', HClinicoValue:''});
         
         const response: ResponseDto = {
             status: 1,
-            location: '/prueba',
+            location: '/register',
         };
 
         return this._buildCallbackResponse(response);
@@ -82,7 +84,7 @@ export class RegisterController{
             //objResponse: datos,
         };
         console.log("hola");
-        return response;
+        return this._buildCallbackResponse(response);
     }
 
     public async datosPaciente(searchRequest:SearchRequest): Promise<ResponseDto>{
@@ -104,7 +106,7 @@ export class RegisterController{
             //objResponse: datos,
         };
         console.log("hola");
-        return response;
+        return this._buildCallbackResponse(response);
     }
 
     public async borrarPaciente(deleteRequest:DeleteRequest): Promise<ResponseDto>{
@@ -118,9 +120,9 @@ export class RegisterController{
         
         const response: ResponseDto = {
             status: 1,
-            location: '/register',
+            location: '/unregister',
         };
-        return response;
+        return this._buildCallbackResponse(response);
     }
       
     private _buildCallbackResponse(response: ResponseDto): ResponseDto {
@@ -130,5 +132,5 @@ export class RegisterController{
             state: { message: response.status},
           });
         return response;
-      }
+    }
 }

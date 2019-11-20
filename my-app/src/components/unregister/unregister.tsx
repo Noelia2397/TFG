@@ -81,6 +81,7 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
             hist_clin:this.state.HistClinicoValue,
         }
        const response: ResponseDto = await this._controller.datosPaciente(request);
+       response.callback!(this.props);
 
     }
 
@@ -90,6 +91,7 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
             beacon: this.state.numBeaconAsign,
         }
         const response: ResponseDto = await this._controller.borrarPaciente(request);
+        response.callback!(this.props);
        
 
     }

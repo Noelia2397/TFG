@@ -44,7 +44,7 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
                                 <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"  placeholder="Introduce valor..." onChange={event=>this.OnChangeTextFieldHClinic(event.target.value)}></input>
                             </Box>
 
-                            <Box className="btn btn-secondary button-register" onClick={()=>this.asign_beacon()}>Asignar localizador</Box>
+                            <Box className="btn btn-secondary button-register" onClick={()=>this.asign_beacon()}>ASIGNAR LOCALIZADOR</Box>
 
                             <Box className="input-group mb-3 mt-3">
                                 <Box className="input-group-prepend">
@@ -53,7 +53,7 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
                                 <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value={this.state.numBeaconAsign} readOnly></input>
                             </Box>
                                 
-                            <Box className=" btn btn-secondary button-register" onClick={()=>this.registerUserAndBeacon()}>Dar de alta</Box>
+                            <Box className=" btn btn-secondary button-register" onClick={()=>this.registerUserAndBeacon()}>DAR DE ALTA</Box>
 
                         </form>
                     </Box>

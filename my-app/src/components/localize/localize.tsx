@@ -56,7 +56,7 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
                                 <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value={this.state.numBeaconAsign} readOnly></input>
                             </Box>
 
-                            <Box className="btn btn-secondary button-register" onClick={()=>this.buscar_paciente()}>LOCALIZAR</Box>
+                            <Box className="btn btn-secondary button-register" onClick={()=>this.buscar_paciente()}>LOCALIZAR</Box> */}
                             
                         </form>
                     </Box>
