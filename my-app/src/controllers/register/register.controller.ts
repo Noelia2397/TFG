@@ -67,16 +67,23 @@ export class RegisterController{
 
     public async localizarPaciente(searchRequest:SearchRequest): Promise<ResponseDto>{
         //Traer información de localización del paciente y mostrarla
-        console.log("esto en localizar");
+        console.log("estoy en localizar");
         var datosBBDD:BaseDResponse ={
             beacon:"",
             userName: "",
         };
-        const auxd = firebase.database().ref().child('users').child(searchRequest.hist_clin);
-        const snapshot = await auxd.once('value');
-        datosBBDD = snapshot.val();
+        const auxd = firebase.database().ref('users/'+searchRequest.hist_clin+'/localizacion').limitToLast(2);
+        const snapshot = await auxd.once('value', function(data){
+            data.forEach(function(childData){
+                datosBBDD = childData.val();
+                console.log(childData.key);
+                console.log(datosBBDD);
+            });
+        });
+        console.log('He acabado');
+        //datosBBDD = snapshot.val();
 
-        this._nameUserLocalize.next({numBeaconAsign:datosBBDD.beacon, NamePatientValue:datosBBDD.userName, HistClinicoValue:searchRequest.hist_clin});
+        //this._nameUserLocalize.next({numBeaconAsign:datosBBDD.beacon, NamePatientValue:datosBBDD.userName, HistClinicoValue:searchRequest.hist_clin});
         
         const response: ResponseDto = {
             status: 1,
