@@ -1,5 +1,5 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { ScanResponse } from "./register/register-dtos";
+import { ScanResponse } from "../register/register-dtos";
 import { Subject, Observable } from "rxjs";
 
 var client: W3CWebSocket ;
@@ -13,15 +13,19 @@ export class socketClient{
     }
     public establishConection (){
         client = new W3CWebSocket('ws://localhost:8000');
+
         client.onmessage = (message) => {
-            console.log(message);
+
             const dataFromServer = JSON.parse(message.data.toString());
-            console.log(dataFromServer);
+ 
             this._beaconDiscover.next({bean: dataFromServer.data});
+
             this.desconectarSocket();
         };
+
         client.onopen = () => {
             console.log('WebSocket Client Connected');
+            
             client.send(JSON.stringify({
                 content: "escanear"
             }));
@@ -29,7 +33,6 @@ export class socketClient{
     }
 
     public desconectarSocket(){
-        console.log("voy a desconectar");
         client.close();
     }
     
