@@ -18,7 +18,7 @@ export default class PruebaView extends Component<RouteComponentProps>{
                     </Box>
                     
                     <Box>
-                        <img className="img-style" src="https://ca.maps-edinburgh.com/img/0/western-general-hospital-mapa.jpg"></img>
+                        {/* <img className="img-style" src="https://ca.maps-edinburgh.com/img/0/western-general-hospital-mapa.jpg"></img> */}
                         <br></br>
                         <Button className="button-login" onClick={()=>this.redirect_options()}>Iniciar sesion</Button>
                     </Box>
