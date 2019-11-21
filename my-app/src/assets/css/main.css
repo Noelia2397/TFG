@@ -1,27 +1,16 @@
 .header{
-   /* width: 100%;
-    height: 12vh;
-    background-color:rgb(86, 59, 243);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;*/
     list-style-type: none;
     margin: 0;
     padding: 0;
     height: 8vh;
     overflow: hidden;
     background-color: rgb(91, 92, 94);
-    /*position: -webkit-sticky; */
     position: sticky !important;
     top: 0;
   }
-  
   li {
     float: left;
   }
-  
   li a {
     display: block;
     color: white;
@@ -31,12 +20,10 @@
     padding: 15px 16px;
     text-decoration: none;
   }
-  
   li a:hover {
     background-color: rgb(126, 127, 128);
     height: 100vh;
   }
-
   .footer{
     width: 100%;
     height: 8vh;
@@ -83,8 +70,8 @@
     margin: normal;
   }
   .button-login{
-    width: 18vh;
-    display: inherit;
+    width: 20vh;
+    display: block !important;
     align-items: inherit;
     justify-content: inherit;
     background-color: rgb(16, 1, 70) !important;
@@ -92,24 +79,20 @@
     height: 6vh;
     color: white !important;
   }
-/*
-  .back-gradient{
-    height: 100vh;
-    background-color: rgb(6, 86, 235); 
-    background-image: linear-gradient(to bottom right,rgb(6, 86, 235,0.8),rgba(214, 140, 192, 0.8)); 
-    display: flex;
-    align-items: center;
-    text-align: center;
-  }*/
+  .button-register{
+    width: 14rem;
+    background-color: rgb(97, 99, 102) !important;
+    border-radius: 6px !important;
+    height: 6vh;
+    margin-bottom: 2%;
+  }
   .background-gradient{
     height: 100vh;
     background-image: url(../images/Fondo.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    /*position: relative;*/
     display: flex;
-    /*padding-top: 10vh;*/
     align-items: center;
     text-align: center;
   }
@@ -118,6 +101,21 @@
     background-color: rgb(255,255,255);
     padding-top: 10vh;;
   }
+  .BoxForm{
+    display:inherit !important;
+    margin-bottom: 15% !important;
+    width: 70%;
+    justify-content: center;
+  }
+  .totalWidth{
+    width: 80% !important;
+  }
+  .titlePage{
+    color: rgb(255,255,255);
+    font-size: 1.6rem;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 1em;
+  }
   .half-left{
     margin: 10vh;
   }
@@ -125,32 +123,51 @@
     height: 35vh;
     width: 50vh;
   }
-  .active {
-    background-color: #4CAF50;
+  #first{
+    background-image: url(../images/BackgroundRegister.jpg);
+    background-position: center;
+    background-size: cover;
   }
-  /*ul{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    height: 8vh;
-    overflow: hidden;
-    background-color: rgb(91, 92, 94);
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-  }*/
-  
-  
+  #second{
+    background-image: url(../images/BackgroundLocalization.jpg);
+    background-position: center;
+    background-size: cover;
+  }
+  #third{
+    background-image: url(../images/BackgroundUnregister.jpg);
+    background-position: center;
+    background-size: cover;
+  }
+  .subtitle-options{
+    font-size: 1.8rem;
+    color: rgb(91, 92, 94);
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    width: auto;
+  }
   .w3-hover-shadow:hover{
-    box-shadow:0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19)
+    box-shadow:0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19);
+    cursor: pointer;
   }
   .cards{
-    width:50vh;
+    width:25% !important;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-direction: row;
+    padding-bottom: 2%;
+    overflow: hidden;
     height: 70vh;
     float: left;
     margin-left: 5vh;
     margin-right: 5vh;
     background-color:rgb(197, 193, 193);
+    border-radius: 20px;
+    box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+    transition: box-shadow 0.4s;
+  }
+  .cards:hover{
+    box-shadow: 1px 1px 20px rgba(0,0,0,0.6);
   }
   .mini-cards{
     width:50vh;
@@ -165,12 +182,15 @@
   .center{
     justify-content: center;
   }
-  input[type=text] {
+  .btn{
+    cursor: pointer;
+  }
+  /* input[type=text] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
-  }
+  } */
   .button-register-user-ble{
     width: 30vh;
     height: 6vh;

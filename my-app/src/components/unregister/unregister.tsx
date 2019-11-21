@@ -26,24 +26,40 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
         return(
             <Box>
                 <HeaderView />
-                <Box className="background-gradient center"><form>
-                        <label>Número historial del paciente</label>
-                        <input type="text" id="uname" onChange={event=>this.OnChangeTextField(event.target.value)} />
+                <Box className="background-gradient center">
+                    <Box className="BoxForm">
+                        <form className="totalWidth">
+                            <h1 className="titlePage">DAR DE BAJA PACIENTE</h1>
 
-                        <Button className="button-register-user-ble" onClick={()=>this.buscar_paciente()}>Buscar paciente</Button>
-                        <br></br>
-                        
-                        <label >Nombre del paciente</label>
-                        <input type="text" id="hist" value={this.state.NamePatientValue} readOnly/>
-                        
-                        
-                        
-                        <label >Nº localizador</label>
-                        <input type="text" id="ble" value={this.state.numBeaconAsign} readOnly/>
+                            <Box className="input-group mb-3">
+                                <Box className="input-group-prepend">
+                                    <span className="input-group-text" id="inputGroup-sizing-default" >HISTORIAL CLÍNICO</span>
+                                </Box>
+                                <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Introduce valor..." onChange={event=>this.OnChangeTextField(event.target.value)}></input>
+                            </Box>
 
-                        <Button className="button-register-user-ble" onClick={()=>this.borrarPaciente()}>Borrar paciente</Button>
-                        
-                    </form>
+                            <Box className="btn btn-secondary button-register" onClick={()=>this.buscar_paciente()}>BUSCAR PACIENTE</Box>
+
+                            <Box className="input-group mb-3 mt-3">
+                                <Box className="input-group-prepend">
+                                    <span className="input-group-text" id="inputGroup-sizing-default">NOMBRE DEL PACIENTE</span>
+                                </Box>
+                                <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"  value={this.state.NamePatientValue} readOnly></input>
+                            </Box>
+
+                            
+
+                            <Box className="input-group mb-3 mt-3">
+                                <Box className="input-group-prepend">
+                                    <span className="input-group-text" id="inputGroup-sizing-default">Nº LOCALIZADOR</span>
+                                </Box>
+                                <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value={this.state.numBeaconAsign} readOnly></input>
+                            </Box>
+                                
+                            <Box className=" btn btn-secondary button-register" onClick={()=>this.borrarPaciente()}>DAR DE BAJA</Box>
+
+                        </form>
+                    </Box>
                 </Box>
                 <Box className="back-white">
                     <p className="sentence">Localiza en un click</p>
@@ -65,6 +81,7 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
             hist_clin:this.state.HistClinicoValue,
         }
        const response: ResponseDto = await this._controller.datosPaciente(request);
+       response.callback!(this.props);
 
     }
 
@@ -74,6 +91,7 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
             beacon: this.state.numBeaconAsign,
         }
         const response: ResponseDto = await this._controller.borrarPaciente(request);
+        response.callback!(this.props);
        
 
     }
