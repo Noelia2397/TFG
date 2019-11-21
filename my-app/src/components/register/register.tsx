@@ -86,8 +86,11 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
             beacon: this.state.numBeaconAsign,
         }
         console.log(this.state.HClinicoValue,this.state.NamePatientValue,this.state.numBeaconAsign);
-        this._controller.asignBeacon(request);
-       //const response: AsignResponseDto = await this._controller.asignBeacon(request);
+        //this._controller.asignBeacon(request);
+        const response: ResponseDto = await this._controller.asignBeacon(request);
+        console.log('He vuelto');
+        console.log(this.state.HClinicoValue,this.state.NamePatientValue,this.state.numBeaconAsign);
+        response.callback!(this.props);
 
     }
     private async registerUserAndBeacon(){

@@ -30,3 +30,6 @@ export interface DeleteRequest{
     hist_clin: string;
     beacon: string;
 }
+export interface ScanResponse{
+    bean: string;
+}
