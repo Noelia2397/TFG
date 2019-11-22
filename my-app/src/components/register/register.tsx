@@ -47,15 +47,8 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
                                 <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"  placeholder="Introduce valor..." onChange={event=>this.OnChangeTextFieldHClinic(event.target.value)}></input>
                             </Box>
 
-                            <Box className="btn btn-secondary button-register" onClick={this.togglePopup.bind(this)}>ASIGNAR LOCALIZADOR</Box>
-                            {this.state.showPopup ?
-                                <Popup
-                                    text='Acerca el dispositivo al ordenador...'
-                                    closePopup={this.togglePopup.bind(this)}
-                                />
-                                : null
-                            }
-
+                            <Box className="btn btn-secondary button-register" onClick={()=>this.asign_beacon()}>ASIGNAR LOCALIZADOR</Box>
+                            
                             <Box className="input-group mb-3 mt-3">
                                 <Box className="input-group-prepend">
                                     <span className="input-group-text" id="inputGroup-sizing-default">LOCALIZADOR</span>
@@ -64,7 +57,14 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
                             </Box>
                                 
                             <Box className=" btn btn-secondary button-register" onClick={()=>this.registerUserAndBeacon()}>DAR DE ALTA</Box>
-
+                            
+                            {this.state.showPopup ?
+                                <Popup
+                                    text='Acerca el dispositivo al ordenador...'
+                                    closePopup={()=>this.showPopUp()}
+                                />
+                                : null
+                            }
                         </form>
                     </Box>
                     
@@ -77,9 +77,13 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
             </Box>
         );
     }
-    togglePopup() {
+
+    private showPopUp(){
+        if(this.state.showPopup==true){
+            this._controller.cerrarConexion();
+        }
         this.setState({
-          showPopup: !this.state.showPopup
+            showPopup: !this.state.showPopup
         });
     }
 
@@ -89,26 +93,29 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
         })
         
     }
+
     private OnChangeTextFieldHClinic(changeValue: string){
         this.setState({
             HClinicoValue:changeValue,
         })
         
     }
+
     private async asign_beacon(){
+
+        this.showPopUp();
+
         var request: RegisterRequest = {
             user_name:this.state.NamePatientValue,
             user_hist: this.state.HClinicoValue,
             beacon: this.state.numBeaconAsign,
         }
-        console.log(this.state.HClinicoValue,this.state.NamePatientValue,this.state.numBeaconAsign);
-        //this._controller.asignBeacon(request);
+        
         const response: ResponseDto = await this._controller.asignBeacon(request);
-        console.log('He vuelto');
-        console.log(this.state.HClinicoValue,this.state.NamePatientValue,this.state.numBeaconAsign);
-        //response.callback!(this.props);
 
+        //response.callback!(this.props);
     }
+    
     private async registerUserAndBeacon(){
         let request: RegisterRequest = {
            user_name:this.state.NamePatientValue,

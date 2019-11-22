@@ -36,7 +36,7 @@ export class RegisterController{
         //Cambiar valor variable _numBeaconAsign para ser detectada por view
         this._socketclient.onViewRegisterDtoChangeReceived().subscribe((response: ScanResponse)=>{
             console.log('Response: '+ response.bean);
-            this._numBeaconAsign.next({numBeaconAsign:response.bean, NamePatientValue:registerRequest.user_name, HClinicoValue:registerRequest.user_hist});
+            this._numBeaconAsign.next({numBeaconAsign:response.bean, NamePatientValue:registerRequest.user_name, HClinicoValue:registerRequest.user_hist, showPopup:false});
         })
         //Conectar con Raspberry y detectar BLE
         this._socketclient.establishConection();
@@ -45,7 +45,13 @@ export class RegisterController{
             status: 1,
             location: '/register',
         };
-        return this._buildCallbackResponse(response);
+        
+        return response;
+        //return this._buildCallbackResponse(response);
+    }
+
+    public async cerrarConexion(){
+        this._socketclient.desconectarSocket();
     }
 
     /*Conectar con la base de datos para enviar los datos del usuario y BLE y almacenarlos,
@@ -68,7 +74,8 @@ export class RegisterController{
             location: '/register',
         };
 
-        return this._buildCallbackResponse(response);
+        return response;
+        //return this._buildCallbackResponse(response);
     }
 
     public async localizarPaciente(searchRequest:SearchRequest): Promise<ResponseDto>{
@@ -92,7 +99,8 @@ export class RegisterController{
             location: '/localize',
         };
 
-        return this._buildCallbackResponse(response);
+        return response;
+        //return this._buildCallbackResponse(response);
     }
 
     public async datosPaciente(searchRequest:SearchRequest): Promise<ResponseDto>{
@@ -113,7 +121,8 @@ export class RegisterController{
             location: '/unregister',
         };
         
-        return this._buildCallbackResponse(response);
+        return response;
+        //return this._buildCallbackResponse(response);
     }
 
     public async borrarPaciente(deleteRequest:DeleteRequest): Promise<ResponseDto>{
@@ -129,16 +138,17 @@ export class RegisterController{
             status: 1,
             location: '/unregister',
         };
-        
-        return this._buildCallbackResponse(response);
+
+        return response;
+        //return this._buildCallbackResponse(response);
     }
       
-    private _buildCallbackResponse(response: ResponseDto): ResponseDto {
+    /*private _buildCallbackResponse(response: ResponseDto): ResponseDto {
         response.callback = router =>
           router.history.push({
             pathname: response.location,
             state: { message: response.status},
           });
         return response;
-    }
+    }*/
 }
