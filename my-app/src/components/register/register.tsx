@@ -69,11 +69,11 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
                     </Box>
                     
                 </Box>
-                <Box className="back-white">
+               {/*} <Box className="back-white">
                     <p className="sentence">Localiza en un click</p>
                     <p>Hola</p>
                     
-                </Box>
+                        </Box>*/}
             </Box>
         );
     }

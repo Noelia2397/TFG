@@ -61,11 +61,11 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
                         </form>
                     </Box>
                 </Box>
-                <Box className="back-white">
+                {/*<Box className="back-white">
                     <p className="sentence">Localiza en un click</p>
                     <p>Hola</p>
                     
-                </Box>
+        </Box>*/}
                
             </Box>
         );

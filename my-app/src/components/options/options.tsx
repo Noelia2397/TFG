@@ -32,11 +32,11 @@ export default class OptionsView extends Component<RouteComponentProps>{
                         </Box>
                     
                 </Box>
-                <Box className="back-white">
+              {/*}  <Box className="back-white">
                     <p className="sentence">Localiza en un click</p>
                     <p>Hola</p>
                     
-                </Box>
+        </Box>*/}
             </Box>
         );
     }

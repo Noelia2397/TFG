@@ -12,9 +12,13 @@ export default class PruebaView extends Component<RouteComponentProps,LoginDto>{
     constructor (props: any){
         super(props);
         this._controller = new LoginController();
+        this._controller.onViewRegisterDtoChangeReceived().subscribe((response: LoginDto)=>{
+            this.setState(response);
+        })
         this.state = {
             emailValue:'',
             passValue:'',
+            showError:false,
         };
     }
     render(){
@@ -40,6 +44,8 @@ export default class PruebaView extends Component<RouteComponentProps,LoginDto>{
                         <Box className="box-button-login">
                             <Button className="button-login" onClick={()=>this.login()}>Iniciar sesion</Button>
                         </Box>
+                        {this.state.showError ?<p className="input-login-incorrect">El usuario o la contraseña no son correctos</p>: null}
+                        
                     </Box>
                     
                 </Box>

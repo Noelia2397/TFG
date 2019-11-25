@@ -72,7 +72,7 @@
   .box-button-login{
     justify-content: center;
     display: flex !important;
-    margin: 5%;
+    margin-top: 5%;
   }
   .button-login{
     width: 20vh;
@@ -80,6 +80,11 @@
     border-radius: 8px !important;
     height: 6vh;
     color: white !important;
+  }
+  .input-login-incorrect{
+    justify-content: center;
+    display: flex !important;
+    color:red;
   }
   .button-register{
     width: 14rem;
