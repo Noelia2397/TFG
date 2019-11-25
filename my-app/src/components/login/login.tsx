@@ -3,24 +3,43 @@ import React from "react";
 import { RouteComponentProps} from "react-router";
 import {Box, Button} from '@material-ui/core';
 import HeaderView from "../header/header";
+import { LoginController } from "../../controllers/login/login.controller";
+import { LoginRequestDto, ResponseLoginDto } from "../../controllers/login/login-dtos";
+import { LoginDto } from "./login-dto";
 
-export default class PruebaView extends Component<RouteComponentProps>{
+export default class PruebaView extends Component<RouteComponentProps,LoginDto>{
+    private _controller: LoginController;
     constructor (props: any){
         super(props);
+        this._controller = new LoginController();
+        this.state = {
+            emailValue:'',
+            passValue:'',
+        };
     }
     render(){
         return(
             <Box>
                 <HeaderView />
-                <Box className="background-gradient center">
+                <Box className="background-gradient">
                     <Box className="half-left">
                         <p className="sentence">Localiza en un click</p>
                     </Box>
                     
-                    <Box>
-                        {/* <img className="img-style" src="https://ca.maps-edinburgh.com/img/0/western-general-hospital-mapa.jpg"></img> */}
-                        <br></br>
-                        <Button className="button-login" onClick={()=>this.redirect_options()}>Iniciar sesion</Button>
+                    <Box className="half-right">
+                        <Box className="form-group">
+                            <label className="title-input-login">USUARIO:</label>
+                            <input type="email" className="form-control" aria-describedby="emailHelp" placeholder="Introduce el nombre de usuario..." onChange={event=>this.OnChangeTextFieldUser(event.target.value)}/>
+                        </Box>
+                        
+                        <Box className="form-group">
+                            <label className="title-input-login">CONTRASEÑA:</label>
+                            <input type="password" className="form-control" placeholder="Introduce la contraseña..." onChange={event=>this.OnChangeTextFieldPass(event.target.value)}/>
+                        </Box>
+                        
+                        <Box className="box-button-login">
+                            <Button className="button-login" onClick={()=>this.login()}>Iniciar sesion</Button>
+                        </Box>
                     </Box>
                     
                 </Box>
@@ -39,8 +58,27 @@ export default class PruebaView extends Component<RouteComponentProps>{
             </Box>
         );
     }
-    private redirect_options(){
-        this.props.history.push({pathname:"/options"})
+
+    private OnChangeTextFieldUser(changeValue: string){
+        this.setState({
+            emailValue:changeValue,
+        }) 
+    }
+
+    private OnChangeTextFieldPass(changeValue: string){
+        this.setState({
+            passValue:changeValue,
+        })   
+    }
+
+    private async login(){
+        var request: LoginRequestDto = {
+            user: this.state.emailValue,
+            pass: this.state.passValue,
+        }
+        
+       const response: ResponseLoginDto = await this._controller.iniciarsesion(request);
+       response.callback!(this.props);
 
     }
 }

@@ -9,7 +9,7 @@ import { socketClient } from "../socket/socketClient";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+//firebase.initializeApp(firebaseConfig);
 
 export class RegisterController{
 

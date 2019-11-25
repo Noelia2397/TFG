@@ -69,11 +69,13 @@
   .textField{
     margin: normal;
   }
+  .box-button-login{
+    justify-content: center;
+    display: flex !important;
+    margin: 5%;
+  }
   .button-login{
     width: 20vh;
-    display: block !important;
-    align-items: inherit;
-    justify-content: inherit;
     background-color: rgb(16, 1, 70) !important;
     border-radius: 8px !important;
     height: 6vh;
@@ -118,7 +120,20 @@
     margin-bottom: 1em;
   }
   .half-left{
-    margin: 10vh;
+    margin: 8%;
+  }
+  .half-right{
+    width: 35%;
+    height: auto;
+    display:block;
+    float: right;
+    text-align: start !important;
+    align-items: center !important;
+  }
+  .title-input-login{
+    color:rgb(48, 48, 48);
+    font-size: 1.2rem;
+    font-family: 'Roboto', sans-serif;
   }
   .img-style{
     height: 35vh;
