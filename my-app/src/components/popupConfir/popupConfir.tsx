@@ -1,7 +1,6 @@
-import React, { Component } from "react";  
+import React from "react";  
 import { Box } from "@material-ui/core";
 import { PopupConfirDto } from "./popupConfir-dto";
-import esperar from "../../assets/images/esperar.gif";
 
 class PopupConfir extends React.Component<PopupConfirDto> {  
     constructor (props: any){
@@ -10,6 +9,7 @@ class PopupConfir extends React.Component<PopupConfirDto> {
         this.state = {
             text: '',
             closePopup: '',
+            cancelPopup:'',
             hist:'',
             name:'',
             loc:'',
@@ -17,15 +17,16 @@ class PopupConfir extends React.Component<PopupConfirDto> {
     }
     render() {  
         return (  
-            <Box className="popup" onClick={this.props.closePopup}>  
+            <Box className="popup" onClick={this.props.cancelPopup}>  
                 <Box className="popup_inner">  
                     <p className="textPopup">{this.props.text}</p>  
-                    <p className="textPopupsmall">Historial clínico:{this.props.hist}</p>
-                    <p className="textPopupsmall">Nombre:{this.props.name}</p>
-                    <p className="textPopupsmall">Localizador:{this.props.loc}</p>
+                    <p className="textPopupsmall">Historial clínico: {this.props.hist}</p>
+                    <p className="textPopupsmall">Nombre: {this.props.name}</p>
+                    <p className="textPopupsmall">Localizador: {this.props.loc}</p>
+                   
+                    <button className="btn btn-success cancelPopup" onClick={this.props.closePopup}>ACEPTAR</button>  
+                    <button className="btn btn-danger cancelPopup" onClick={this.props.cancelPopup}>CANCELAR</button> 
                     
-
-                    <button className="btn btn-secondary cancelPopup" onClick={this.props.closePopup}>ACEPTAR</button>  
                 </Box>  
             </Box>  
         );  

@@ -25,7 +25,6 @@ export class LoginController{
             return this._buildCallbackResponse(response);
         }
         //Traer información de localización del paciente y mostrarla
-        console.log("estoy en localizar");
         var datosBBDD:BaseLoginResponse ={
             pass:"",
         };

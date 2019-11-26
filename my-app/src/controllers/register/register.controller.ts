@@ -1,15 +1,10 @@
-import {RegisterRequest, ResponseDto, SearchRequest, SearchResponse, BaseDResponse, DeleteRequest, ScanResponse} from "./register-dtos";
+import {RegisterRequest, ResponseDto, SearchRequest, BaseDResponse, DeleteRequest, ScanResponse} from "./register-dtos";
 import {Subject, Observable} from 'rxjs';
 import firebase from 'firebase';
 import { RegisterDto } from "../../components/register/register-dto";
-import {firebaseConfig} from "../../config/config-bbdd";
 import { UnregisteDto } from "../../components/unregister/unregister-dto";
 import { LocalizeDto } from "../../components/localize/localize-dto";
 import { socketClient } from "../socket/socketClient";
-import { w3cwebsocket as W3CWebSocket } from "websocket";
-
-// Initialize Firebase
-//firebase.initializeApp(firebaseConfig);
 
 export class RegisterController{
 
@@ -32,22 +27,20 @@ export class RegisterController{
     
     //Conectar con la Raspberry que detectará el BLE y traer su valor para mostrarlo por pantalla
     public async asignBeacon(registerRequest: RegisterRequest):Promise<ResponseDto>{
-        console.log("estoy en asign");
         //Cambiar valor variable _numBeaconAsign para ser detectada por view
         this._socketclient.onViewRegisterDtoChangeReceived().subscribe((response: ScanResponse)=>{
-            console.log('Response: '+ response.bean);
             this._numBeaconAsign.next({numBeaconAsign:response.bean, NamePatientValue:registerRequest.user_name, HClinicoValue:registerRequest.user_hist, showPopup:false, showError:false});
         })
         //Conectar con Raspberry y detectar BLE
         this._socketclient.establishConection();
        
+      //this._numBeaconAsign.next({numBeaconAsign:'234', NamePatientValue:registerRequest.user_name, HClinicoValue:registerRequest.user_hist, showPopup:false, showError:false});
         const response: ResponseDto = {
             status: 1,
             location: '/register',
         };
         
         return response;
-        //return this._buildCallbackResponse(response);
     }
 
     public async cerrarConexion(){
@@ -57,6 +50,7 @@ export class RegisterController{
     /*Conectar con la base de datos para enviar los datos del usuario y BLE y almacenarlos,
     almacenar datos tanto en users como en beacon*/
     public registerUser (registerRequest: RegisterRequest){
+        console.log("voy a almacenar el usuario");
 
         firebase.database().ref('users/').child(registerRequest.user_hist).set({
             userName: registerRequest.user_name,
@@ -75,37 +69,19 @@ export class RegisterController{
         };
 
         return response;
-        //return this._buildCallbackResponse(response);
-    }
-
-    public async localizarPaciente(searchRequest:SearchRequest): Promise<ResponseDto>{
-        //Traer información de localización del paciente y mostrarla
-        console.log("estoy en localizar");
-        var datosBBDD:BaseDResponse ={
-            beacon:"",
-            userName: "",
-        };
-        const auxd = firebase.database().ref('users/'+searchRequest.hist_clin+'/localizacion').limitToLast(2);
-        const snapshot = await auxd.once('value', function(data){
-            data.forEach(function(childData){
-                datosBBDD = childData.val();
-                console.log(childData.key);
-                console.log(datosBBDD);
-            });
-        });
-        
-        const response: ResponseDto = {
-            status: 1,
-            location: '/localize',
-        };
-
-        return response;
-        //return this._buildCallbackResponse(response);
     }
 
     public async datosPaciente(searchRequest:SearchRequest): Promise<ResponseDto>{
         //Traer información de localización del paciente y mostrarla
-        console.log("esto en localizar");
+        if(searchRequest.hist_clin==''){
+            const response: ResponseDto = {
+                status: -1,
+                location: '/unregister',
+            };
+            
+            return response;
+        }
+
         var datosBBDD:BaseDResponse ={
             beacon:"",
             userName: "",
@@ -114,9 +90,6 @@ export class RegisterController{
         const snapshot = await auxd.once('value');
         datosBBDD = snapshot.val();
         if(datosBBDD!=null){
-            console.log("estos son los datos:")
-            console.log(datosBBDD.beacon);
-            console.log(datosBBDD.userName);
             
             this._nameUserRemove.next({numBeaconAsign:datosBBDD.beacon, NamePatientValue:datosBBDD.userName, HistClinicoValue:searchRequest.hist_clin, showError:false, showErrorBaja:false});
             
@@ -126,9 +99,7 @@ export class RegisterController{
             };
             
             return response;
-        }else{
-            console.log("no hay datos:")
-            
+        }else{            
             this._nameUserRemove.next({numBeaconAsign:'', NamePatientValue:'', HistClinicoValue:searchRequest.hist_clin, showError:true});
             
             const response: ResponseDto = {
@@ -138,8 +109,6 @@ export class RegisterController{
             
             return response;
         }
-        
-        //return this._buildCallbackResponse(response);
     }
 
     public async borrarPaciente(deleteRequest:DeleteRequest): Promise<ResponseDto>{
@@ -157,7 +126,6 @@ export class RegisterController{
         };
 
         return response;
-        //return this._buildCallbackResponse(response);
     }
       
     /*private _buildCallbackResponse(response: ResponseDto): ResponseDto {

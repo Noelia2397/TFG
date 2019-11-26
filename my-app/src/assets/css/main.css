@@ -271,10 +271,11 @@
   }
   .cancelPopup{
     width: 7rem;
-    background-color: rgb(97, 99, 102) !important;
     border-radius: 6px !important;
     height: 6vh;
     margin-bottom: 2%;
+    margin-left: 2%;
+    margin-right: 2%;
     color: rgb(255,255,255);
   }
   .gif-box{

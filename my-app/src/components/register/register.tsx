@@ -1,7 +1,7 @@
 import { Component } from "react";
 import React from "react";
 import { RouteComponentProps } from "react-router";
-import {Box, Button, TextField} from '@material-ui/core';
+import {Box} from '@material-ui/core';
 import HeaderView from "../header/header";
 import { ResponseDto, RegisterRequest } from "../../controllers/register/register-dtos";
 import { RegisterDto } from "./register-dto";
@@ -76,22 +76,17 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
                             {this.state.showPopupConfir ?
                                 <PopupConfir
                                     text='¿Estás seguro que deseas dar de alta este paciente?'
-                                    hist='historial'
-                                    name='nombre'
-                                    loc='localizador'
+                                    hist={this.state.HClinicoValue}
+                                    name={this.state.NamePatientValue}
+                                    loc={this.state.numBeaconAsign}
                                     closePopup={()=>this.acceptRegister()}
+                                    cancelPopup={()=>this.showPopUpConfir()}
                                 />
                                 : null
                             }
                         </form>
                     </Box>
-                    
                 </Box>
-               {/*} <Box className="back-white">
-                    <p className="sentence">Localiza en un click</p>
-                    <p>Hola</p>
-                    
-                        </Box>*/}
             </Box>
         );
     }
@@ -130,7 +125,8 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
             this.setState({
                 showError: true,
             })
-        }else{
+        }
+        else{
             this.showPopUp();
 
             var request: RegisterRequest = {
@@ -140,14 +136,10 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
             }
             
             const response: ResponseDto = await this._controller.asignBeacon(request);
-
         }
-
-        //response.callback!(this.props);
     }
     
     private async registerUserAndBeacon(){
-
         if(this.state.numBeaconAsign==''){
             this.setState({
                 showErrorLoc: true,
@@ -156,12 +148,9 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
         else{
             this.showPopUpConfir();
         }
-      // response.callback!(this.props);
-       //const response: AsignResponseDto = await this._controller.registerUser(request);
     }
 
     private async acceptRegister(){
-        console.log("estoy en accept");
 
         this.showPopUpConfir();
 
@@ -172,6 +161,5 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
         }
 
         const response = this._controller.registerUser(request);
-
     }
 }

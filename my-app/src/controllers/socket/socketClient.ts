@@ -33,8 +33,11 @@ export class socketClient{
     }
 
     public desconectarSocket(){
-        console.log("WebSocket disconnected");
-        client.close();
+        if(client!=null){
+            console.log("WebSocket disconnected");
+            client.close();
+        }
+        
     }
     
 }

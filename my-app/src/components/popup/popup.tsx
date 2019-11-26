@@ -22,7 +22,7 @@ class Popup extends React.Component<PopupDto> {
                     </Box>
                     
 
-                    <button className="btn btn-secondary cancelPopup" onClick={this.props.closePopup}>CANCELAR</button>  
+                    <button className="btn btn-danger cancelPopup" onClick={this.props.closePopup}>CANCELAR</button>  
                 </Box>  
             </Box>  
         );  

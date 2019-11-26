@@ -1,11 +1,12 @@
 import { Component } from "react";
 import React from "react";
 import { RouteComponentProps } from "react-router";
-import {Box, Button} from '@material-ui/core';
+import {Box} from '@material-ui/core';
 import HeaderView  from "../header/header";
-import { SearchRequest, ResponseDto, SearchResponse, DeleteRequest } from "../../controllers/register/register-dtos";
+import { SearchRequest, ResponseDto, DeleteRequest } from "../../controllers/register/register-dtos";
 import { RegisterController } from "../../controllers/register/register.controller";
 import { UnregisteDto } from "./unregister-dto";
+import PopupConfir from "../popupConfir/popupConfir";
 
 export default class UnregisterView extends Component<RouteComponentProps,UnregisteDto>{
     private _controller: RegisterController;
@@ -22,6 +23,7 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
             numBeaconAsign: '',
             showError:false,
             showErrorBaja:false,
+            showPopupConfir:false,
         };
     }
     render(){
@@ -63,19 +65,31 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
                             <Box className=" btn btn-secondary button-register" onClick={()=>this.borrarPaciente()}>DAR DE BAJA</Box>
 
                             {this.state.showErrorBaja ?<p className="input-login-incorrect">Datos del paciente no válidos</p>: null}
-
+                            
+                            {this.state.showPopupConfir ?
+                                <PopupConfir
+                                    text='¿Estás seguro que deseas dar de baja este paciente?'
+                                    hist={this.state.HistClinicoValue}
+                                    name={this.state.NamePatientValue}
+                                    loc={this.state.numBeaconAsign}
+                                    closePopup={()=>this.acceptBorrar()}
+                                    cancelPopup={()=>this.showPopUpConfir()}
+                                />
+                                : null
+                            }
                         </form>
                     </Box>
-                </Box>
-                {/*<Box className="back-white">
-                    <p className="sentence">Localiza en un click</p>
-                    <p>Hola</p>
-                    
-        </Box>*/}
-               
+                </Box>               
             </Box>
         );
     }
+
+    private showPopUpConfir(){
+        this.setState({
+            showPopupConfir: !this.state.showPopupConfir
+        });
+    }
+
     private OnChangeTextField(changeValue: string){
         this.setState({
             HistClinicoValue:changeValue,
@@ -89,12 +103,12 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
                 numBeaconAsign: '',
                 showError: true,
             })
-        }else{
+        }
+        else{
             var request: SearchRequest = {
                 hist_clin:this.state.HistClinicoValue,
             }
             const response: ResponseDto = await this._controller.datosPaciente(request);
-           //response.callback!(this.props);
         }
     }
 
@@ -105,13 +119,17 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
             })
         }
         else{
-            var request: DeleteRequest = {
-                hist_clin: this.state.HistClinicoValue,
-                beacon: this.state.numBeaconAsign,
-            }
-            const response: ResponseDto = await this._controller.borrarPaciente(request);
-            //response.callback!(this.props);
+            this.showPopUpConfir();
         }
 
+    }
+
+    private async acceptBorrar(){
+        var request: DeleteRequest = {
+            hist_clin: this.state.HistClinicoValue,
+            beacon: this.state.numBeaconAsign,
+        }
+
+        const response: ResponseDto = await this._controller.borrarPaciente(request);
     }
 }
