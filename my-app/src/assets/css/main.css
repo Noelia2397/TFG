@@ -265,6 +265,10 @@
     font-size: 1.4rem;
     margin-top: 5%;
   }
+  .textPopupsmall{
+    font-size: 1.2rem;
+    margin-top: 1%;
+  }
   .cancelPopup{
     width: 7rem;
     background-color: rgb(97, 99, 102) !important;

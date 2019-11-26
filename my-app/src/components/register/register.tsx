@@ -7,6 +7,7 @@ import { ResponseDto, RegisterRequest } from "../../controllers/register/registe
 import { RegisterDto } from "./register-dto";
 import { RegisterController } from "../../controllers/register/register.controller";
 import Popup from "../popup/popup";
+import PopupConfir from "../popupConfir/popupConfir";
 
 export default class RegisterView extends Component<RouteComponentProps, RegisterDto>{
     private _controller: RegisterController;
@@ -22,6 +23,9 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
             HClinicoValue: '',
             numBeaconAsign: '',
             showPopup:false,
+            showPopupConfir: false,
+            showError:false,
+            showErrorLoc:false,
         };
     }
     
@@ -48,6 +52,8 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
                             </Box>
 
                             <Box className="btn btn-secondary button-register" onClick={()=>this.asign_beacon()}>ASIGNAR LOCALIZADOR</Box>
+
+                            {this.state.showError ?<p className="input-login-incorrect">Es necesario rellenar todos los campos</p>: null}
                             
                             <Box className="input-group mb-3 mt-3">
                                 <Box className="input-group-prepend">
@@ -57,11 +63,23 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
                             </Box>
                                 
                             <Box className=" btn btn-secondary button-register" onClick={()=>this.registerUserAndBeacon()}>DAR DE ALTA</Box>
+
+                            {this.state.showErrorLoc ?<p className="input-login-incorrect">Es necesario asignar un localizador</p>: null}
                             
                             {this.state.showPopup ?
                                 <Popup
                                     text='Acerca el dispositivo al ordenador...'
                                     closePopup={()=>this.showPopUp()}
+                                />
+                                : null
+                            }
+                            {this.state.showPopupConfir ?
+                                <PopupConfir
+                                    text='¿Estás seguro que deseas dar de alta este paciente?'
+                                    hist='historial'
+                                    name='nombre'
+                                    loc='localizador'
+                                    closePopup={()=>this.acceptRegister()}
                                 />
                                 : null
                             }
@@ -86,6 +104,12 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
             showPopup: !this.state.showPopup
         });
     }
+    
+    private showPopUpConfir(){
+        this.setState({
+            showPopupConfir: !this.state.showPopupConfir
+        });
+    }
 
     private OnChangeTextFieldName(changeValue: string){
         this.setState({
@@ -102,28 +126,52 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
     }
 
     private async asign_beacon(){
+        if(this.state.NamePatientValue==''|| this.state.HClinicoValue==''){
+            this.setState({
+                showError: true,
+            })
+        }else{
+            this.showPopUp();
 
-        this.showPopUp();
+            var request: RegisterRequest = {
+                user_name:this.state.NamePatientValue,
+                user_hist: this.state.HClinicoValue,
+                beacon: this.state.numBeaconAsign,
+            }
+            
+            const response: ResponseDto = await this._controller.asignBeacon(request);
 
-        var request: RegisterRequest = {
-            user_name:this.state.NamePatientValue,
-            user_hist: this.state.HClinicoValue,
-            beacon: this.state.numBeaconAsign,
         }
-        
-        const response: ResponseDto = await this._controller.asignBeacon(request);
 
         //response.callback!(this.props);
     }
     
     private async registerUserAndBeacon(){
-        let request: RegisterRequest = {
-           user_name:this.state.NamePatientValue,
-           user_hist: this.state.HClinicoValue,
-           beacon: this.state.numBeaconAsign,
-       }
-       const response = this._controller.registerUser(request);
+
+        if(this.state.numBeaconAsign==''){
+            this.setState({
+                showErrorLoc: true,
+            })
+        }
+        else{
+            this.showPopUpConfir();
+        }
       // response.callback!(this.props);
        //const response: AsignResponseDto = await this._controller.registerUser(request);
+    }
+
+    private async acceptRegister(){
+        console.log("estoy en accept");
+
+        this.showPopUpConfir();
+
+        let request: RegisterRequest = {
+            user_name:this.state.NamePatientValue,
+            user_hist: this.state.HClinicoValue,
+            beacon: this.state.numBeaconAsign,
+        }
+
+        const response = this._controller.registerUser(request);
+
     }
 }

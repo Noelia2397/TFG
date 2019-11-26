@@ -36,7 +36,7 @@ export class RegisterController{
         //Cambiar valor variable _numBeaconAsign para ser detectada por view
         this._socketclient.onViewRegisterDtoChangeReceived().subscribe((response: ScanResponse)=>{
             console.log('Response: '+ response.bean);
-            this._numBeaconAsign.next({numBeaconAsign:response.bean, NamePatientValue:registerRequest.user_name, HClinicoValue:registerRequest.user_hist, showPopup:false});
+            this._numBeaconAsign.next({numBeaconAsign:response.bean, NamePatientValue:registerRequest.user_name, HClinicoValue:registerRequest.user_hist, showPopup:false, showError:false});
         })
         //Conectar con Raspberry y detectar BLE
         this._socketclient.establishConection();
@@ -113,15 +113,32 @@ export class RegisterController{
         const auxd = firebase.database().ref().child('users').child(searchRequest.hist_clin);
         const snapshot = await auxd.once('value');
         datosBBDD = snapshot.val();
+        if(datosBBDD!=null){
+            console.log("estos son los datos:")
+            console.log(datosBBDD.beacon);
+            console.log(datosBBDD.userName);
+            
+            this._nameUserRemove.next({numBeaconAsign:datosBBDD.beacon, NamePatientValue:datosBBDD.userName, HistClinicoValue:searchRequest.hist_clin, showError:false, showErrorBaja:false});
+            
+            const response: ResponseDto = {
+                status: 1,
+                location: '/unregister',
+            };
+            
+            return response;
+        }else{
+            console.log("no hay datos:")
+            
+            this._nameUserRemove.next({numBeaconAsign:'', NamePatientValue:'', HistClinicoValue:searchRequest.hist_clin, showError:true});
+            
+            const response: ResponseDto = {
+                status: -1,
+                location: '/unregister',
+            };
+            
+            return response;
+        }
         
-        this._nameUserRemove.next({numBeaconAsign:datosBBDD.beacon, NamePatientValue:datosBBDD.userName, HistClinicoValue:searchRequest.hist_clin});
-        
-        const response: ResponseDto = {
-            status: 1,
-            location: '/unregister',
-        };
-        
-        return response;
         //return this._buildCallbackResponse(response);
     }
 

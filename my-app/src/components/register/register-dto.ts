@@ -3,4 +3,7 @@ export interface RegisterDto{
     HClinicoValue: string,
     numBeaconAsign: string,
     showPopup?: boolean,
+    showPopupConfir?: boolean,
+    showError?: boolean,
+    showErrorLoc?: boolean,
 }

@@ -20,6 +20,8 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
             NamePatientValue: '',
             HistClinicoValue:'',
             numBeaconAsign: '',
+            showError:false,
+            showErrorBaja:false,
         };
     }
     render(){
@@ -40,6 +42,8 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
 
                             <Box className="btn btn-secondary button-register" onClick={()=>this.buscar_paciente()}>BUSCAR PACIENTE</Box>
 
+                            {this.state.showError ?<p className="input-login-incorrect">Historial clínico no válido</p>: null}
+
                             <Box className="input-group mb-3 mt-3">
                                 <Box className="input-group-prepend">
                                     <span className="input-group-text" id="inputGroup-sizing-default">NOMBRE DEL PACIENTE</span>
@@ -57,6 +61,8 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
                             </Box>
                                 
                             <Box className=" btn btn-secondary button-register" onClick={()=>this.borrarPaciente()}>DAR DE BAJA</Box>
+
+                            {this.state.showErrorBaja ?<p className="input-login-incorrect">Datos del paciente no válidos</p>: null}
 
                         </form>
                     </Box>
@@ -77,22 +83,35 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
     }
 
     private async buscar_paciente(){
-        var request: SearchRequest = {
-            hist_clin:this.state.HistClinicoValue,
+        if(this.state.HistClinicoValue==''){
+            this.setState({
+                NamePatientValue: '',
+                numBeaconAsign: '',
+                showError: true,
+            })
+        }else{
+            var request: SearchRequest = {
+                hist_clin:this.state.HistClinicoValue,
+            }
+            const response: ResponseDto = await this._controller.datosPaciente(request);
+           //response.callback!(this.props);
         }
-       const response: ResponseDto = await this._controller.datosPaciente(request);
-       //response.callback!(this.props);
-
     }
 
     private async borrarPaciente(){
-        var request: DeleteRequest = {
-            hist_clin: this.state.HistClinicoValue,
-            beacon: this.state.numBeaconAsign,
+        if(this.state.HistClinicoValue=='' || this.state.numBeaconAsign=='' || this.state.NamePatientValue==''){
+            this.setState({
+                showErrorBaja: true,
+            })
         }
-        const response: ResponseDto = await this._controller.borrarPaciente(request);
-        //response.callback!(this.props);
-       
+        else{
+            var request: DeleteRequest = {
+                hist_clin: this.state.HistClinicoValue,
+                beacon: this.state.numBeaconAsign,
+            }
+            const response: ResponseDto = await this._controller.borrarPaciente(request);
+            //response.callback!(this.props);
+        }
 
     }
 }
