@@ -10,6 +10,11 @@ export interface ResponseDto{
 } 
 
 export interface BaseDResponse{
-    userName: string;
-    beacon: string;
+    direccion: string;
+    distancia: string;
+    valor?: any;
+}
+
+export interface ListBaseDResponse{
+    listLocalization: BaseDResponse[];
 }
