@@ -28,14 +28,12 @@ export class LocalizeController{
         listdatosBBDD={
             listLocalization: datosBBDD,
         }
-        console.log(listdatosBBDD.listLocalization);
 
         listdatosBBDD.listLocalization.forEach(item => {
-            console.log("voy a llamar ", item.distancia);
-            const response=this.calculateDistance(item.distancia);
-            console.log(response);
-            item.valor=response;
+            item.valor=this.calculateDistance(item.distancia);
         });
+
+        this.clasificarDatos(listdatosBBDD);
 
         console.log(listdatosBBDD.listLocalization);
         
@@ -68,5 +66,30 @@ export class LocalizeController{
             console.log("distance: ", distance) 
             return distance;
         }
-      } 
+    } 
+
+    public async clasificarDatos(lista:ListBaseDResponse){
+        var ultReceptor=lista.listLocalization[9].direccion;
+        var i=8;
+        var num=0;
+        var existe=false;
+        var receptores=[];
+        while(i>-1){
+            while(num < receptores.length || existe == true){
+                if(lista.listLocalization[i].direccion==receptores[num]){
+                    existe=true;
+                    break;
+                }
+                num++;
+                console.log("h", existe);
+            }
+            if(existe==false){
+                receptores.push(lista.listLocalization[i].direccion)
+            }
+
+            console.log(receptores);
+            i--;
+        }
+        console.log("El paciente está en: "+ultReceptor);
+    }
 }
