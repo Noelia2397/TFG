@@ -49,7 +49,6 @@ export class LocalizeController{
   
         var txPower = -59 //hard coded power value. Usually ranges between -59 to -65
         var rssi=parseInt(distancia);
-        console.log('rssi: ', rssi)
         if (rssi === 0) {
             return -1.0; 
         }
@@ -57,39 +56,41 @@ export class LocalizeController{
         var ratio = rssi*1.0/txPower;
 
         if (ratio < 1.0) {
-            console.log("ratio menor que 1");
             return Math.pow(ratio,10);
         }
         else {
-            console.log("mayor que 1")
             var distance =  (0.89976)*Math.pow(ratio,7.7095) + 0.111;   
-            console.log("distance: ", distance) 
             return distance;
         }
     } 
 
     public async clasificarDatos(lista:ListBaseDResponse){
-        var ultReceptor=lista.listLocalization[9].direccion;
-        var i=8;
-        var num=0;
+        var i=lista.listLocalization.length-1;
+        var num;
         var existe=false;
         var receptores=[];
-        while(i>-1){
-            while(num < receptores.length || existe == true){
+        while(i>=0){
+            num=0;
+            while(num < receptores.length && existe == false){
                 if(lista.listLocalization[i].direccion==receptores[num]){
                     existe=true;
                     break;
                 }
                 num++;
-                console.log("h", existe);
             }
             if(existe==false){
                 receptores.push(lista.listLocalization[i].direccion)
+            }else{
+                existe=false;
             }
-
-            console.log(receptores);
             i--;
         }
-        console.log("El paciente está en: "+ultReceptor);
+        if(receptores.length>1){
+            console.log("Hay que dibujar el camino");
+        }else{
+            //Solo hay un receptor, solo hay que pintar una zona
+            console.log("Hay que pintar un solo receptor: ",receptores[0]);
+        }
+        console.log(receptores);
     }
 }

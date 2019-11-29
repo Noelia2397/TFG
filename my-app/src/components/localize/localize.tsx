@@ -6,6 +6,7 @@ import HeaderView  from "../header/header";
 import { SearchRequest, ResponseDto } from "../../controllers/register/register-dtos";
 import { LocalizeDto } from "./localize-dto";
 import { LocalizeController } from "../../controllers/localize/localize.controller";
+import Canvas from "../canvas";
 
 export default class LocalizeView extends Component<RouteComponentProps,LocalizeDto>{
     private _controller: LocalizeController;
@@ -41,8 +42,11 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
                             <Box className="btn btn-secondary button-register" onClick={()=>this.buscar_paciente()}>LOCALIZAR PACIENTE</Box>
                             
                         </form>
-                    </Box>
-                    
+                        
+                    </Box>  
+                    <Box className="mapa">
+                        <Canvas/>
+                    </Box>                  
                 </Box>
                 <Box className="back-white">
                     <p className="sentence">Localiza en un click</p>
