@@ -16,5 +16,17 @@ export interface BaseDResponse{
 }
 
 export interface ListBaseDResponse{
+    hist_clin:string,
     listLocalization: BaseDResponse[];
+}
+
+export interface CoordenadasResponse{
+    start1x: any;
+    start1y: any;
+    start2x: any;
+    start2y: any;
+    coor1x: any;
+    coor1y:any;
+    coor2x: any;
+    coor2y:any;
 }

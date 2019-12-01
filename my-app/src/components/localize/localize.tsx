@@ -6,7 +6,7 @@ import HeaderView  from "../header/header";
 import { SearchRequest, ResponseDto } from "../../controllers/register/register-dtos";
 import { LocalizeDto } from "./localize-dto";
 import { LocalizeController } from "../../controllers/localize/localize.controller";
-import Canvas from "../canvas";
+import Canvas from "../canvas/canvas";
 
 export default class LocalizeView extends Component<RouteComponentProps,LocalizeDto>{
     private _controller: LocalizeController;
@@ -19,8 +19,6 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
         })
         this.state = {
             HistClinicoValue: '',
-            NamePatientValue: '',
-            numBeaconAsign: '',
         };
     }
     render(){
@@ -45,7 +43,12 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
                         
                     </Box>  
                     <Box className="mapa">
-                        <Canvas/>
+                        <Canvas
+                            start1x={121} start1y={428}
+                            start2x={303} start2y={333}
+                            coor1x={145} coor1y={313}
+                            coor2x={279} coor2y={447}
+                        />
                     </Box>                  
                 </Box>
                 <Box className="back-white">
