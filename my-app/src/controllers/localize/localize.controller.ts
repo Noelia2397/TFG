@@ -1,4 +1,4 @@
-import { SearchRequest, ResponseDto, BaseDResponse, ListBaseDResponse } from "./localize-dtos";
+import { SearchRequest, ResponseDto, BaseDResponse, ListBaseDResponse, CoordenadasResponse } from "./localize-dtos";
 import firebase from 'firebase';
 import { Subject, Observable } from "rxjs";
 import { LocalizeDto } from "../../components/localize/localize-dto";
@@ -9,33 +9,26 @@ export class LocalizeController{
     public onViewLocalizeDtoChangeReceived(): Observable<LocalizeDto>{
         return this._nameUserLocalize.asObservable();
     }
-
+    
     public async localizarPaciente(searchRequest:SearchRequest): Promise<ResponseDto>{
         //Traer información de localización del paciente y mostrarla
         console.log("estoy en localizar controller");
-        var listdatosBBDD:ListBaseDResponse;
+        
         var datosBBDD:BaseDResponse[] = [];
-        const auxd = firebase.database().ref('users/'+searchRequest.hist_clin+'/localizacion').limitToLast(10).orderByKey();
-        const snapshot = await auxd.once('value', function(data){
-           /* data.forEach(item=>{
-                datosBBDD.push(item);
-            });*/
-            data.forEach(function(dataChild){
+        var listdatosBBDD:ListBaseDResponse;
+       
+        const auxd = firebase.database().ref('users/'+searchRequest.hist_clin+'/localizacion').limitToLast(2).orderByKey();
+
+        auxd.on('value', function(snapshot) {
+            snapshot.forEach(function(dataChild){
                 datosBBDD.push(dataChild.val());
             })
+            listdatosBBDD={
+                hist_clin:searchRequest.hist_clin,
+                listLocalization: datosBBDD,
+            };
+            updateLocalization(listdatosBBDD);
         });
-
-        listdatosBBDD={
-            listLocalization: datosBBDD,
-        }
-
-        listdatosBBDD.listLocalization.forEach(item => {
-            item.valor=this.calculateDistance(item.distancia);
-        });
-
-        this.clasificarDatos(listdatosBBDD);
-
-        console.log(listdatosBBDD.listLocalization);
         
         const response: ResponseDto = {
             status: 1,
@@ -45,8 +38,8 @@ export class LocalizeController{
         return response;
     }
 
-    public async calculateDistance(distancia:string) {
-  
+    public async calculateDistance(distancia:string):Promise<any> {
+        console.log("Voy a calcular la distancia");
         var txPower = -59 //hard coded power value. Usually ranges between -59 to -65
         var rssi=parseInt(distancia);
         if (rssi === 0) {
@@ -65,32 +58,56 @@ export class LocalizeController{
     } 
 
     public async clasificarDatos(lista:ListBaseDResponse){
-        var i=lista.listLocalization.length-1;
-        var num;
-        var existe=false;
-        var receptores=[];
-        while(i>=0){
-            num=0;
-            while(num < receptores.length && existe == false){
-                if(lista.listLocalization[i].direccion==receptores[num]){
-                    existe=true;
-                    break;
-                }
-                num++;
-            }
-            if(existe==false){
-                receptores.push(lista.listLocalization[i].direccion)
-            }else{
-                existe=false;
-            }
-            i--;
+        if(lista.listLocalization[0].direccion===lista.listLocalization[1].direccion){
+            this.recuperarCoordenadas(lista.listLocalization[0].direccion);
+            console.log("Son iguales, pinto: ", lista.listLocalization[0].direccion);
         }
-        if(receptores.length>1){
-            console.log("Hay que dibujar el camino");
-        }else{
-            //Solo hay un receptor, solo hay que pintar una zona
-            console.log("Hay que pintar un solo receptor: ",receptores[0]);
+        else{
+            console.log("voy a comprobar el más cercano");
+            if(lista.listLocalization[0].valor<lista.listLocalization[1].valor){
+                this.recuperarCoordenadas(lista.listLocalization[0].direccion);
+                console.log("no son iguales, pinto: ", lista.listLocalization[0].direccion);
+            }
+            else{
+                this.recuperarCoordenadas(lista.listLocalization[1].direccion);
+                console.log("no son iguales, pinto: ", lista.listLocalization[1].direccion);
+            }
         }
-        console.log(receptores);
     }
+
+    public async recuperarCoordenadas(receptor:string):Promise<CoordenadasResponse>{
+        console.log("estoy buscando coordenadas");
+        var coordenadas:CoordenadasResponse = {
+            start1x: '',
+            start1y: '',
+            start2x: '',
+            start2y: '',
+            coor1x: '',
+            coor1y:'',
+            coor2x: '',
+            coor2y:'',
+        };
+        const auxd = firebase.database().ref('coordenadas/'+receptor);
+        const snapshot = await auxd.once('value', function(data){
+            coordenadas=data.val();
+        });
+        console.log(coordenadas);
+        return coordenadas;
+    }
+
+    public async prueba(){
+        console.log("estoy en prueba");
+    }
+}
+
+var controlador:LocalizeController=new LocalizeController();
+function updateLocalization(lista:ListBaseDResponse) {
+    console.log("hola estoy en funcion");
+    console.log(lista);
+    console.log(lista.listLocalization);
+    lista.listLocalization.forEach(item => {
+        item.valor=controlador.calculateDistance(item.distancia);
+    });
+    controlador.clasificarDatos(lista);
+    console.log(lista);
 }
