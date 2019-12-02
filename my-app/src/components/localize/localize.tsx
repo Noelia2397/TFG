@@ -16,6 +16,7 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
         this._controller = new LocalizeController();
         this._controller.onViewLocalizeDtoChangeReceived().subscribe((response: LocalizeDto)=>{
             this.setState(response);
+            this.componentWillReceiveProps(response);
         })
         this.state = {
             HistClinicoValue: '',
@@ -29,6 +30,9 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
             coor2y:'',
             showCanvas: false,
         };
+    }
+    componentWillReceiveProps(nextProps:any) {
+        this.setState(nextProps);
     }
     render(){
         return(

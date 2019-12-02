@@ -9,7 +9,7 @@ export interface ResponseDto{
     objResponse?:any;
 } 
 
-export interface BaseDResponse{
+export interface BaseDLocResponse{
     direccion: string;
     distancia: string;
     valor?: any;
@@ -17,7 +17,7 @@ export interface BaseDResponse{
 
 export interface ListBaseDResponse{
     hist_clin:string,
-    listLocalization: BaseDResponse[];
+    listLocalization: BaseDLocResponse[];
 }
 
 export interface CoordenadasResponse{
