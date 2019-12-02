@@ -19,6 +19,15 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
         })
         this.state = {
             HistClinicoValue: '',
+            start1x: '',
+            start1y: '',
+            start2x: '',
+            start2y: '',
+            coor1x: '',
+            coor1y:'',
+            coor2x: '',
+            coor2y:'',
+            showCanvas: false,
         };
     }
     render(){
@@ -41,15 +50,20 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
                             
                         </form>
                         
-                    </Box>  
+                    </Box> 
+                
                     <Box className="mapa">
+                    {this.state.showCanvas ? 
                         <Canvas
-                            start1x={121} start1y={428}
-                            start2x={303} start2y={333}
-                            coor1x={145} coor1y={313}
-                            coor2x={279} coor2y={447}
+                            start1x={this.state.start1x} start1y={this.state.start1y}
+                            start2x={this.state.start2x} start2y={this.state.start2y}
+                            coor1x={this.state.coor1x} coor1y={this.state.coor1y}
+                            coor2x={this.state.coor2x} coor2y={this.state.coor2y}
                         />
-                    </Box>                  
+                        : null
+                    }   
+                    </Box>   
+                              
                 </Box>
                 <Box className="back-white">
                     <p className="sentence">Localiza en un click</p>

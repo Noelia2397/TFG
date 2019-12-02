@@ -6,6 +6,7 @@ import OptionsView from "../options/options";
 import RegisterView from "../register/register";
 import UnregisterView from "../unregister/unregister";
 import LocalizeView from "../localize/localize";
+import Canvas from "../canvas/canvas";
 
 export class RouterViewsPath extends Component{
     render(){
@@ -16,8 +17,8 @@ export class RouterViewsPath extends Component{
                     <Route exact path="/options" component={OptionsView}></Route>
                     <Route exact path="/register" component={RegisterView}></Route>
                     <Route exact path="/unregister" component={UnregisterView}></Route>
-                    <Route excat path="/localize" component={LocalizeView}></Route>
-                    <Redirect from="/" to="/login" />
+                    <Route exact path="/localize" component={LocalizeView}></Route>
+                    <Route exact path="/canvas" component={Canvas}></Route>
                 </BrowserRouter>
             </React.Fragment>
         )

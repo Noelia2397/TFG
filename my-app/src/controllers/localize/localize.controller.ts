@@ -4,10 +4,10 @@ import { Subject, Observable } from "rxjs";
 import { LocalizeDto } from "../../components/localize/localize-dto";
 
 export class LocalizeController{
-    private _nameUserLocalize: Subject<LocalizeDto> = new Subject();
+    private _localization: Subject<LocalizeDto> = new Subject();
     
     public onViewLocalizeDtoChangeReceived(): Observable<LocalizeDto>{
-        return this._nameUserLocalize.asObservable();
+        return this._localization.asObservable();
     }
     
     public async localizarPaciente(searchRequest:SearchRequest): Promise<ResponseDto>{
@@ -91,7 +91,17 @@ export class LocalizeController{
         const snapshot = await auxd.once('value', function(data){
             coordenadas=data.val();
         });
-        console.log(coordenadas);
+        this._localization.next({HistClinicoValue: receptor,
+                                start1x: coordenadas.start1x,
+                                start1y: coordenadas.start1y,
+                                start2x: coordenadas.start2x,
+                                start2y: coordenadas.start2y,
+                                coor1x: coordenadas.coor1x,
+                                coor1y:coordenadas.coor1y,
+                                coor2x: coordenadas.coor2x,
+                                coor2y: coordenadas.coor2y,
+                                showCanvas:true});
+        console.log("coordenadas",coordenadas);
         return coordenadas;
     }
 
@@ -109,5 +119,5 @@ function updateLocalization(lista:ListBaseDResponse) {
         item.valor=controlador.calculateDistance(item.distancia);
     });
     controlador.clasificarDatos(lista);
-    console.log(lista);
+    console.log("lista:",lista);
 }

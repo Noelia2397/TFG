@@ -3,14 +3,12 @@ import {Subject, Observable} from 'rxjs';
 import firebase from 'firebase';
 import { RegisterDto } from "../../components/register/register-dto";
 import { UnregisteDto } from "../../components/unregister/unregister-dto";
-import { LocalizeDto } from "../../components/localize/localize-dto";
 import { socketClient } from "../socket/socketClient";
 
 export class RegisterController{
 
     private _numBeaconAsign: Subject<RegisterDto> = new Subject();
     private _nameUserRemove: Subject<UnregisteDto> = new Subject();
-    private _nameUserLocalize: Subject<LocalizeDto> = new Subject();
 
     private _socketclient = new socketClient();
 
@@ -20,9 +18,6 @@ export class RegisterController{
 
     public onViewUnregisterDtoChangeReceived(): Observable<UnregisteDto>{
         return this._nameUserRemove.asObservable();
-    }
-    public onViewLocalizeDtoChangeReceived(): Observable<LocalizeDto>{
-        return this._nameUserLocalize.asObservable();
     }
     
     //Conectar con la Raspberry que detectará el BLE y traer su valor para mostrarlo por pantalla
