@@ -38,7 +38,7 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
         return(
             <Box>
                 <HeaderView />
-                <Box className="background-gradient center">
+                <Box className="background-gradient-form">
                     <Box className="BoxForm">
                         <form className="totalWidth">
                             <h1 className="titlePage">LOCALIZAR PACIENTE</h1>
@@ -55,10 +55,10 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
                         </form>
                         
                     </Box> 
-                
-                    <Box className="mapa">
+                <Box className="mapa">
+                    <Box className="mapa-tam">
                     {this.state.showCanvas ? 
-                        <Canvas
+                        <Canvas 
                             start1x={this.state.start1x} start1y={this.state.start1y}
                             start2x={this.state.start2x} start2y={this.state.start2y}
                             coor1x={this.state.coor1x} coor1y={this.state.coor1y}
@@ -67,7 +67,7 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
                         : null
                     }   
                     </Box>   
-                              
+                   </Box>           
                 </Box>
                 <Box className="back-white">
                     <p className="sentence">Localiza en un click</p>

@@ -30,7 +30,7 @@ export default class UnregisterView extends Component<RouteComponentProps,Unregi
         return(
             <Box>
                 <HeaderView />
-                <Box className="background-gradient center">
+                <Box className="background-gradient-form">
                     <Box className="BoxForm">
                         <form className="totalWidth">
                             <h1 className="titlePage">DAR DE BAJA PACIENTE</h1>
