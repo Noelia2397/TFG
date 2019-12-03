@@ -15,6 +15,7 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
         super(props);
         this._controller = new LocalizeController();
         this._controller.onViewLocalizeDtoChangeReceived().subscribe((response: LocalizeDto)=>{
+            console.log("me he actualizado");
             this.setState(response);
             this.componentWillReceiveProps(response);
         })

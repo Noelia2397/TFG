@@ -19,6 +19,7 @@ export class RouterViewsPath extends Component{
                     <Route exact path="/unregister" component={UnregisterView}></Route>
                     <Route exact path="/localize" component={LocalizeView}></Route>
                     <Route exact path="/canvas" component={Canvas}></Route>
+                    <Redirect from="/" to="/options"></Redirect>
                 </BrowserRouter>
             </React.Fragment>
         )
