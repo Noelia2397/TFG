@@ -14,7 +14,7 @@ export class LocalizeController{
         var datosBBDD:BaseDLocResponse[] = [];
         var listdatosBBDD:ListBaseDResponse;
        
-        const auxd = firebase.database().ref('users/'+searchRequest.hist_clin+'/localizacion').limitToLast(2).orderByKey();
+        const auxd = firebase.database().ref('users/'+searchRequest.hist_clin+'/localizacion').limitToLast(2);
 
         auxd.on('value', (snapshot) =>{
             if(datosBBDD.length>1 && datosBBDD.length===2){
@@ -24,11 +24,28 @@ export class LocalizeController{
             snapshot.forEach(function(dataChild){
                 datosBBDD.push(dataChild.val());
             })
+
             listdatosBBDD={
                 hist_clin:searchRequest.hist_clin,
                 listLocalization: datosBBDD,
             };
-            this.actualizarLocalizacion(listdatosBBDD);
+
+            if(datosBBDD.length>0){
+                this.actualizarLocalizacion(listdatosBBDD);
+            }
+            else{
+                this._localization.next({HistClinicoValue: searchRequest.hist_clin,
+                    start1x: '',
+                    start1y: '',
+                    start2x: '',
+                    start2y: '',
+                    coor1x: '',
+                    coor1y:'',
+                    coor2x: '',
+                    coor2y: '',
+                    showCanvas:false,
+                    showError:true});
+            }
         });
 
         const response: ResponseDto = {
@@ -43,8 +60,13 @@ export class LocalizeController{
         lista.listLocalization.forEach(item => {
             item.valor=this.calculateDistance(item.distancia);
         });
-        this.clasificarDatos(lista);
 
+        if(lista.listLocalization.length>1){
+            this.clasificarDatos(lista);
+        }
+        else{
+            this.recuperarCoordenadas(lista.hist_clin,lista.listLocalization[0].direccion);
+        }
     }
 
     public async calculateDistance(distancia:string):Promise<any> {
@@ -104,6 +126,7 @@ export class LocalizeController{
                                 coor1y:coordenadas.coor1y,
                                 coor2x: coordenadas.coor2x,
                                 coor2y: coordenadas.coor2y,
-                                showCanvas:true});
+                                showCanvas:true,
+                                showError:false});
     }
 }

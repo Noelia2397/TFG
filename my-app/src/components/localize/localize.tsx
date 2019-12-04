@@ -30,6 +30,7 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
             coor2x: '',
             coor2y:'',
             showCanvas: false,
+            showError: false,
         };
     }
     componentWillReceiveProps(nextProps:any) {
@@ -53,6 +54,8 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
 
                             <Box className="btn btn-secondary button-register" onClick={()=>this.buscar_paciente()}>LOCALIZAR PACIENTE</Box>
                             
+                            {this.state.showError ?<p className="input-login-incorrect">Número historial clínico no válido</p>: null}
+
                         </form>
                         
                     </Box> 
@@ -86,12 +89,17 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
     }
 
     private async buscar_paciente(){
-        var request: SearchRequest = {
-            hist_clin:this.state.HistClinicoValue,
+        if(this.state.HistClinicoValue==''){
+            this.setState({
+                showError: true,
+            })
         }
-
-        const response: ResponseDto = await this._controller.localizarPaciente(request);
-       
-
+        else{
+            var request: SearchRequest = {
+                hist_clin:this.state.HistClinicoValue,
+            }
+    
+            const response: ResponseDto = await this._controller.localizarPaciente(request);
+        }
     }
 }

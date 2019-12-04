@@ -9,4 +9,5 @@ export interface LocalizeDto{
     coor2x: any,
     coor2y:any,
     showCanvas: boolean,
+    showError?: boolean,
 }
