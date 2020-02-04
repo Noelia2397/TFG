@@ -42,7 +42,7 @@ export default class PruebaView extends Component<RouteComponentProps,LoginDto>{
                         </Box>
                         
                         <Box className="box-button-login">
-                            <Button className="button-login" onClick={()=>this.login()}>Iniciar sesion</Button>
+                            <Button className="button-login" onClick={()=>this.login()}>Iniciar sesión</Button>
                         </Box>
                         {this.state.showError ?<p className="input-login-incorrect">El usuario o la contraseña no son correctos</p>: null}
                         

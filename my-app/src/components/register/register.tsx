@@ -57,7 +57,7 @@ export default class RegisterView extends Component<RouteComponentProps, Registe
                             
                             <Box className="input-group mb-3 mt-3">
                                 <Box className="input-group-prepend">
-                                    <span className="input-group-text" id="inputGroup-sizing-default">LOCALIZADOR</span>
+                                    <span className="input-group-text" id="inputGroup-sizing-default">Nº LOCALIZADOR</span>
                                 </Box>
                                 <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" value={this.state.numBeaconAsign} readOnly></input>
                             </Box>

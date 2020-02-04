@@ -1,6 +1,6 @@
 import { Box } from "@material-ui/core";
 import React from "react";
-import map from "../../assets/images/mapa-hospital.png";
+import map from "../../assets/images/Mapa.png";
 import { CanvasDto } from "./canvas-dto";
 
 class Canvas extends React.Component<CanvasDto> {
@@ -23,8 +23,8 @@ class Canvas extends React.Component<CanvasDto> {
     const ctx = canvas.getContext("2d")
     const img:any = this.refs.image
     img.onload = () => {
-      ctx.clearRect(0,0, 800, 600);
-      ctx.drawImage(img, 0, 0,800,600)
+      ctx.clearRect(0,0, 700, 450);
+      ctx.drawImage(img, 0, 0,700,450)
       ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
       ctx.beginPath();
       ctx.moveTo(this.props.start1x,this.props.start1y);
@@ -43,8 +43,8 @@ class Canvas extends React.Component<CanvasDto> {
     const ctx = canvas.getContext("2d")
     const img:any = this.refs.image
     
-    ctx.clearRect(0,0, 800, 600);
-    ctx.drawImage(img, 0, 0, 800, 600);
+    ctx.clearRect(0,0, 700, 450);
+    ctx.drawImage(img, 0, 0, 700, 450);
     ctx.beginPath();
     ctx.moveTo(this.props.start1x,this.props.start1y);
     ctx.lineTo(this.props.coor1x, this.props.coor1y);
@@ -59,7 +59,7 @@ class Canvas extends React.Component<CanvasDto> {
   render() {
     return(
       <Box>
-        <canvas ref="canvas" width={800} height={600} className="canvas-ref"/>
+        <canvas ref="canvas" width={700} height={450} className="canvas-ref"/>
         <img ref="image" src={map} className="hidden" />
       </Box>
     )

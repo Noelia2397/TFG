@@ -74,9 +74,7 @@ export default class LocalizeView extends Component<RouteComponentProps,Localize
                    </Box>           
                 </Box>
                 <Box className="back-white">
-                    <p className="sentence">Localiza en un click</p>
-                    <p>Hola</p>
-                    
+
                 </Box>
                
             </Box>

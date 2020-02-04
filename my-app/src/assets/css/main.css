@@ -115,7 +115,7 @@
     justify-content: center;
   }
   .back-white{
-    height: 60vh;
+    height: 30vh;
     background-color: rgb(255,255,255);
     padding-top: 10vh;;
   }
@@ -312,6 +312,6 @@
     justify-content: center;
   }
   .mapa-tam{
-    width: 55%;
+    width: 45%;
   }
 
